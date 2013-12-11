@@ -1,6 +1,6 @@
 __author__ = 'Lunzhy'
 import Compare
 
-paraname = 'Xsection'
-unit = '$cm^{-2}$'
+paraname = 'SiO2Mass'
+unit = '$m0$'
 Compare.plotCompare(paraname, unit)

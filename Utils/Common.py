@@ -6,6 +6,7 @@ import numpy as np
 directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
 cmpDir = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
 colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+vfbFileBaseName = 'VfbShift.txt'
 
 def getColor(index):
   """

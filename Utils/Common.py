@@ -4,6 +4,7 @@ import numpy as np
 
 ############ the common functions of PySimFig ##############
 directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
+cmpDir = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
 colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 
 def getColor(index):
@@ -12,6 +13,16 @@ def getColor(index):
   """
   i = (index - 1) % len(colors)
   return colors[i]
+
+def getColor_time(time):
+  """
+  get color according to the time
+  @param time:
+  @return:
+  """
+  arg = int(abs(math.log10(time)))
+  return getColor(arg)
+
 
 def fileCount(nameString):
   """
@@ -54,7 +65,10 @@ def getTimeLabel(filename):
   f.close()
   match = re.search(r'\[.+\]', title)
   time = match.group()
-  return float(time[1:-1]), 'Time = ' + time[1:-1] + 's'
+  time = float(time[1:-1])
+  # time = '%.0e' % time
+  label = 'Time = ' + str(time) + 's'
+  return time, label
 
 def isPlot(filename):
   """

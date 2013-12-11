@@ -47,39 +47,55 @@ def plotVfb(index, directory, lineLabel, ax):
   return
 
 
-def plotCompare(paraName, paraUnit):
+def plotCmpVfb(fig, paraDir, paraUnit):
   """
-  plot the comparision result
-  @param paraName: name of the parameter, like Xsection
+  plot the flat band voltage comparision result
+  @param fig: the figure containing the plots
+  @param paraDir: name of the parameter, like Xsection
   @param paraUnit: the unit of the parameter, used in the axis title, like $cm^{-2}$
   @return:
   """
-  maindir = os.path.join(Common.cmpDir, paraName)
-
-  fig = plt.figure()
-  axVfb = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-  figOcc = plt.figure()
+  maindir = os.path.join(Common.cmpDir, paraDir)
+  #figOcc = plt.figure()
+  ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
   for index, file in enumerate(os.listdir(maindir)):
-    labelTitle = paraName + ' = ' + file + ' ' + paraUnit
+    labelTitle = paraDir + ' = ' + file + ' ' + paraUnit
     prjdir = os.path.join(maindir, file)
     # plot Vfb
-    plotVfb(index, prjdir, labelTitle, axVfb)
+    plotVfb(index, prjdir, labelTitle, ax)
+
+  ax.set_xlim(1e-8, 1)
+  ax.set_xscale('log')
+  ax.set_ylim(0, 8)
+  ax.legend(loc='upper left')
+  return
+
+
+def plotCmpOccupation(fig, paraDir, paraUnit):
+  """
+  plot the comparison result of trap occupation in 2x3 fashion
+  @param fig: the figure containing the plots
+  @param paraDir: name of the parameter, like Xsection
+  @param paraUnit: the unit of the parameter, used in the axis title, like $cm^{-2}$
+  @return:
+  """
+  maindir = os.path.join(Common.cmpDir, paraDir)
+
+  for index, file in enumerate(os.listdir(maindir)):
+    labelTitle = paraDir + ' = ' + file + ' ' + paraUnit
+    prjdir = os.path.join(maindir, file)
     # plot trap occupation
     occdir = os.path.join(prjdir, 'Trap')
-    plotOccupation(index, occdir, labelTitle, figOcc)
+    plotOccupation(index, occdir, labelTitle, fig)
 
-  axVfb.set_xlim(1e-8, 1)
-  axVfb.set_xscale('log')
-  axVfb.legend(loc='upper left')
-
-  for subplotaxe in figOcc.axes:
+  for subplotaxe in fig.axes:
     subplotaxe.set_yscale('log')
     subplotaxe.set_ylim(yLimit, 2)
     subplotaxe.set_xlim(0, xLimit)
 
-  figOcc.subplots_adjust(right=0.8)
-  axOcc = figOcc.get_axes()
-  h, l = axOcc[0].get_legend_handles_labels()
-  plt.figlegend(h, l, loc='upper left', bbox_to_anchor=(0.8, 0.7))
-  plt.show()
+  fig.subplots_adjust(right=0.8)
+  axes = fig.get_axes()
+  h, l = axes[0].get_legend_handles_labels()
+  fig.legend(h, l, loc='upper left', bbox_to_anchor=(0.8, 0.7))
+  return

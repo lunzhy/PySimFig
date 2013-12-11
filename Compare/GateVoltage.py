@@ -2,8 +2,8 @@ __author__ = 'Lunzhy'
 import matplotlib.pyplot as plt
 import Compare
 
-direc = 'Xsection'
-unit = '$cm^{-2}$'
+direc = 'GateVoltage'
+unit = '$V$'
 figOcc = plt.figure()
 figVfb = plt.figure()
 Compare.plotCmpOccupation(figOcc, direc, unit)

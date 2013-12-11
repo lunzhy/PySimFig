@@ -8,9 +8,11 @@ colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest\Density'
 filenameBase = 'eDensity_s[].txt'
 
+
 def getColor(index):
   i = (index - 1) % len(colors)
   return colors[i]
+
 
 def fileCount():
   num = 0
@@ -19,12 +21,13 @@ def fileCount():
       num += 1
   return num
 
+
 def slice(file):
   f = open(file)
   info = f.readline()
   currY = 0
   xList = []
-  while(True):
+  while (True):
     aLine = f.readline()
     aList = aLine.split()
     if len(xList) == 0 or currY == aList[1]:
@@ -32,6 +35,7 @@ def slice(file):
     else:
       break
   return xList, len(xList)
+
 
 def getTimeLabel(filename):
   f = open(filename)
@@ -41,11 +45,13 @@ def getTimeLabel(filename):
   time = match.group()
   return time[1:-1], 'Time = ' + time[1:-1] + 's'
 
+
 def selectivePlot(filename, index):
   time, labelTime = getTimeLabel(filename)
   time = float(time)
   if math.log10(time) == math.floor(math.log10(time)):
     plt.plot(y, eDens, lw=2, c=getColor(index), label=labelTime)
+
 
 fileCnt = fileCount()
 file = filenameBase.replace('[]', '1')
@@ -60,12 +66,12 @@ for index in range(1, fileCnt + 1):
   x, y = x / 1e-7, y / 1e-7
   x, y = x - min(x), y - min(y)
   y = y[::xVertCnt]
-  eDens= eDens[::xVertCnt]
+  eDens = eDens[::xVertCnt]
   selectivePlot(filename, index)
 
-#plt.ylim(1e10, 1e11)
+plt.ylim(1e8, 1e13)
 #plt.xlim(9, 10)
 plt.yscale('log')
-#plt.legend(loc = 'lower left')
+plt.legend(loc='lower left')
 plt.show()
 

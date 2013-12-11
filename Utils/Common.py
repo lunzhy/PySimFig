@@ -5,7 +5,9 @@ import numpy as np
 ############ the common functions of PySimFig ##############
 directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
 cmpDir = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
-colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+#colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
+          'navy', 'olive', 'orange', 'lime', 'silver', 'aqua', 'teal']
 vfbFileBaseName = 'VfbShift.txt'
 
 def getColor(index):

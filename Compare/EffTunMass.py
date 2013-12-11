@@ -1,6 +1,11 @@
 __author__ = 'Lunzhy'
+import matplotlib.pyplot as plt
 import Compare
 
-paraname = 'SiO2Mass'
+direc = 'SiO2Mass'
 unit = '$m0$'
-Compare.plotCompare(paraname, unit)
+figOcc = plt.figure()
+figVfb = plt.figure()
+Compare.plotCmpOccupation(figOcc, direc, unit)
+Compare.plotCmpVfb(figVfb, direc, unit)
+plt.show()

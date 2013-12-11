@@ -1,7 +1,10 @@
 __author__ = 'Lunzhy'
-import matplotlib.pyplot as plt
-import Common, os
+import os
+
 import numpy as np
+
+import Common
+
 
 yLimit = 1e-4
 xLimit = 6.5
@@ -51,17 +54,18 @@ def plotCmpVfb(fig, paraDir, paraUnit):
   """
   plot the flat band voltage comparision result
   @param fig: the figure containing the plots
-  @param paraDir: name of the parameter, like Xsection
+  @param paraDir: name of the parameter, like Xsection, same with the directory name
   @param paraUnit: the unit of the parameter, used in the axis title, like $cm^{-2}$
   @return:
   """
   maindir = os.path.join(Common.cmpDir, paraDir)
-  #figOcc = plt.figure()
   ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
   for index, file in enumerate(os.listdir(maindir)):
-    labelTitle = paraDir + ' = ' + file + ' ' + paraUnit
     prjdir = os.path.join(maindir, file)
+    if not os.path.isdir(prjdir):
+      continue
+    labelTitle = paraDir + ' = ' + file + ' ' + paraUnit
     # plot Vfb
     plotVfb(index, prjdir, labelTitle, ax)
 
@@ -83,9 +87,11 @@ def plotCmpOccupation(fig, paraDir, paraUnit):
   maindir = os.path.join(Common.cmpDir, paraDir)
 
   for index, file in enumerate(os.listdir(maindir)):
-    labelTitle = paraDir + ' = ' + file + ' ' + paraUnit
     prjdir = os.path.join(maindir, file)
-    # plot trap occupation
+    if not os.path.isdir(prjdir):
+      continue
+      # plot trap occupation
+    labelTitle = paraDir + ' = ' + file + ' ' + paraUnit
     occdir = os.path.join(prjdir, 'Trap')
     plotOccupation(index, occdir, labelTitle, fig)
 

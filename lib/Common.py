@@ -1,14 +1,33 @@
 __author__ = 'Lunzhy'
-import re, math, os
+import re
+import math
+import os
+
 import numpy as np
+
 
 ############ the common functions of PySimFig ##############
 directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
 cmpDir = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
+w_woDir = r'E:\PhD Study\SimCTM\SctmTest\W_WO';
+figSaveDir = r'E:\PhD Study\SimCTM\SctmTest\figures'
+
 #colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
           'navy', 'olive', 'orange', 'lime', 'silver', 'aqua', 'teal']
-vfbFileBaseName = 'VfbShift.txt'
+linestyles = ['-', '--']
+vfbFileName = 'VfbShift.txt'
+
+
+def getLinestyle(index):
+  """
+  get the linestyle
+  @param index:
+  @return:
+  """
+  i = (index - 1) % len(linestyles)
+  return linestyles[i]
+
 
 def getColor(index):
   """
@@ -16,6 +35,7 @@ def getColor(index):
   """
   i = (index - 1) % len(colors)
   return colors[i]
+
 
 def getColor_time(time):
   """
@@ -37,6 +57,7 @@ def fileCount(nameString):
       num += 1
   return num
 
+
 def sliceX(file):
   """
   slice gets the list of x coordinates and the number of vertex in x direction
@@ -57,6 +78,7 @@ def sliceX(file):
   f.close()
   return xList, len(xList)
 
+
 def getTimeLabel(filename):
   """
   get the time string and corresponding label for plotting
@@ -73,6 +95,7 @@ def getTimeLabel(filename):
   label = 'Time = ' + str(time) + 's'
   return time, label
 
+
 def isPlot(filename):
   """
   plot only when the expotential argument is integer
@@ -83,6 +106,7 @@ def isPlot(filename):
   time = float(time)
   return math.log10(time) == math.floor(math.log10(time))
 
+
 def getStepNumber(filename):
   """
   get the step number from file name
@@ -92,6 +116,7 @@ def getStepNumber(filename):
   match = re.search(r's.+\.', filename)
   suffix = match.group()
   return int(suffix[1:-1])
+
 
 def getFiles(directory, filenameBase):
   """
@@ -110,6 +135,7 @@ def getFiles(directory, filenameBase):
     fileList[index] = file
   return fileList
 
+
 ########## specificly used in plotting 1D figures ##########
 def readData1D(file, xSkip):
   """
@@ -127,5 +153,15 @@ def readData1D(file, xSkip):
   return y, val
 
 
+def readVfb(directory):
+  """
+  read the flat band voltage shift file in given directory
+  @param directory: the directory of the project
+  @return: time list and vfb list
+  """
+  file = os.path.join(directory, vfbFileName)
+  data = np.loadtxt(file)
+  times, vfbs = data[:, 0], data[:, 1]
+  return times, vfbs
 
-########## specificly used in plotting 2D figures ##########
+  ########## specificly used in plotting 2D figures ##########

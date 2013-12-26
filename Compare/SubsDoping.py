@@ -7,13 +7,14 @@ import Compare
 import Common
 
 
-direc = 'FermiAbove'
-unit = '$eV$'
+direc = 'SubsDoping'
+unit = '$cm^{-3}$'
 figOcc = plt.figure()
 figVfb = plt.figure()
 Compare.plotCmpOccupation(figOcc, direc, unit)
 Compare.plotCmpVfb(figVfb, direc, unit)
 plt.show()
+
 figname = os.path.join(Common.figSaveDir, direc)
 figVfb.savefig(figname, dpi=600)
 

@@ -1,6 +1,7 @@
 __author__ = 'Lunzhy'
 import matplotlib.pyplot as plt
 
+import os, sys
 path = os.path.abspath(os.path.join('..', 'lib'))
 if not path in sys.path:
   sys.path.append(path)
@@ -23,22 +24,33 @@ exp_flatband_18V = [x - min(exp_voltage_18V) for x in exp_voltage_18V]
 exp_flatband_19V = [x - min(exp_voltage_19V) for x in exp_voltage_19V]
 
 #############
-exp_time_list = [exp_time_17V, exp_flatband_18V, exp_flatband_19V]
+exp_time_list = [exp_time_17V, exp_time_18V, exp_time_19V]
 exp_flatband_list = [exp_flatband_17V, exp_flatband_18V, exp_flatband_19V]
 
 Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\TANOS'
-Main_project_name = r'Demo'
+Main_project_name = r'LargeXsection' #Demo, Squeeze, Nitride, LargeXsection
 Prj_list = ['17V', '18V', '19V']
 
 fig = figure()
-ax = fig.add_axes([0.1, 0.1, 0.7, 0.7])
+ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
 for index, prj in enumerate(Prj_list):
   prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
   sim_time, sim_flatband = readVfb(prj_path)
-  plotFittingVfb(ax, index, exp_time_list[index], exp_flatband_list[index], sim_time, sim_flatband)
+  plotFittingVfb(ax, index, exp_time_list[index], exp_flatband_list[index], sim_time, sim_flatband, prj)
+
+handles, labels = ax.get_legend_handles_labels()
+hl = sorted(zip(handles, labels), key=lambda x: x[1])
+handles_new, labels_new = zip(*hl)
+
+ax.legend(handles_new, labels_new, loc='upper left', ncol=2, columnspacing=1)
+ax.set_xlabel('Programming Time ($s$)')
+ax.set_ylabel('Flatband Voltage Shift ($V$)')
 
 ax.set_xscale('log')
+ax.set_xlim(1e-9, 1e-2)
+ax.set_ylim(-0.5, 8)
+
 plt.show()
 
 sys.path.remove(path)

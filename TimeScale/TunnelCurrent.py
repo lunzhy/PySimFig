@@ -49,10 +49,10 @@ for file in sorted_ls(directory):
     currs_in.append(curr_in)
     currs_out.append(curr_out)
 
-plt.ylim(1e-9, 10)
+#plt.ylim(1e-9, 10)
 plt.plot(times, currs_in, marker='o', label='tunnel in')
 plt.plot(times, currs_out, marker='o', label='tunnel out')
-plt.yscale('linear')
+plt.yscale('log')
 plt.xscale('log')
 plt.legend(loc='lower right')
 plt.show()

@@ -6,7 +6,7 @@ directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
 
 def delFiles(path):
   for file in os.listdir(path):
-    if not file == 'default.param':
+    if file == 'user.param':
       continue
     file_path = os.path.join(path, file)
     if os.path.isfile(file_path):

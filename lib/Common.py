@@ -1,22 +1,40 @@
 __author__ = 'Lunzhy'
-import re
-import math
-import os
-
+import re, math, os, sys
 import numpy as np
+import matplotlib.pyplot as plt
+import scipy.interpolate
+from matplotlib.colors import LogNorm
+from operator import itemgetter
 
 
-############ the common functions of PySimFig ##############
-directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
-cmpDir = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
-w_woDir = r'E:\PhD Study\SimCTM\SctmTest\W_WO';
-figSaveDir = r'E:\PhD Study\SimCTM\SctmTest\figures'
+############ global variables used in PySimFig ##############
+Directory_Debug = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
+Directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
+Dir_Cmp = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
+Dir_W_WO = r'E:\PhD Study\SimCTM\SctmTest\W_WO';
+Dir_SaveFig = r'E:\PhD Study\SimCTM\SctmTest\figures'
+Flatband_File_Relpath = 'Miscellaneous\VfbShift.txt'
+TrapDistr_Folder = 'Trap'
 
-#colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
-colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
+#Colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+Colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
           'navy', 'olive', 'orange', 'lime', 'silver', 'aqua', 'teal']
-linestyles = ['-', '--']
-vfbFileName = 'VfbShift.txt'
+Linestyles = ['-', '--']
+Markers = ['o', 's', 'v', 'd', 'h']
+
+
+Vfb_File_Name = 'VfbShift.txt'
+Convert_cm_to_nm = 1e7
+
+########### the common functions of PySimFig ###############
+def getMarker(index):
+  """
+  get the marker
+  @param index:
+  @return:
+  """
+  i = index % len(Markers)
+  return Markers[i]
 
 
 def getLinestyle(index):
@@ -25,16 +43,16 @@ def getLinestyle(index):
   @param index:
   @return:
   """
-  i = (index - 1) % len(linestyles)
-  return linestyles[i]
+  i = index % len(Linestyles)
+  return Linestyles[i]
 
 
 def getColor(index):
   """
-  get color in the colors list
+  get color in the Colors list
   """
-  i = (index - 1) % len(colors)
-  return colors[i]
+  i = index % len(Colors)
+  return Colors[i]
 
 
 def getColor_time(time):
@@ -52,15 +70,59 @@ def fileCount(nameString):
   count the file with specified name string
   """
   num = 0
-  for file in os.listdir(directory):
+  for file in os.listdir(Directory):
     if nameString in file:
       num += 1
   return num
 
 
+def getCoordsInX(file):
+  """
+  get the coordinates in x direction, new
+  @param file: name of the data file
+  @return: (string) coordinate list in x direction
+  """
+  f = open(file)
+  info = f.readline()
+  xCoord_list = []
+  while (True):
+    line = f.readline()
+    var_list = line.split()
+    xCoord = var_list[0]
+    if xCoord in xCoord_list:
+      break
+    else:
+      xCoord_list.append(xCoord)
+  f.close()
+  return xCoord_list
+
+
+def getPlottedValueList(file, xCoord):
+  """
+  get the value list to be plotted, new
+  @param file: data file name
+  @param xCoord: (string) the coordinate in x direction
+  @return:
+  """
+  f = open(file)
+  info = f.readline()
+  data_tupleList = []
+  for line in f.readlines():
+    if not line:
+      continue
+    line_data = line.split()
+    if line_data[0] == xCoord:
+      line_data = [float(value) for value in line_data]
+      line_data[0] = line_data[0] * Convert_cm_to_nm
+      line_data[1] = line_data[1] * Convert_cm_to_nm
+      data_tupleList.append(tuple(line_data))
+  data_list = list(zip(*data_tupleList))
+  return data_list
+
+
 def sliceX(file):
   """
-  slice gets the list of x coordinates and the number of vertex in x direction
+  sliceX gets the list of x coordinates and the number of vertex in x direction
   @param file:
   @return:
   """
@@ -120,7 +182,7 @@ def getStepNumber(filename):
 
 def getFiles(directory, filenameBase):
   """
-  get the full filenames of correct sequence in a directory containing the fileNameBase
+  get the full filenames of correct sequence in a Directory containing the fileNameBase
   @param directory:
   @param filenameBase:
   @return:
@@ -136,7 +198,72 @@ def getFiles(directory, filenameBase):
   return fileList
 
 
+def saveFigure(fig, name):
+  """
+
+  @param plt:
+  @param name:
+  @return:
+  """
+  figname = os.path.join(common.figSaveDir, name)
+  fig.savefig(figname, dpi=600)
+  return
+
+
+def getTime(filename):
+  """
+  get the time string and corresponding label for plotting
+  @param filename:
+  @return: time string and label for plotting
+  """
+  f = open(filename)
+  title = f.readline()
+  f.close()
+  match = re.search(r'\[.+\]', title)
+  time = match.group()
+  time = float(time[1:-1])
+  return time
+
+
+def searchFileNameByTime(folder, pattern, time):
+  time_filepath = [] # stores tuple (time, file_path)
+  for file in os.listdir(folder):
+    if pattern in file:
+      file_path = os.path.join(folder, file)
+      time_filepath.append((getTime(file_path), file_path))
+  time_filepath = sorted(time_filepath, key=itemgetter(0))
+  time_diff = [math.fabs(time - time_path[0]) for time_path in time_filepath]
+  min_index = time_diff.index(min(time_diff))
+  return time_filepath[min_index][1]
+
+
+
+def getDataAlongY_1D(filename, ncol):
+  xCoords = getCoordsInX(filename)
+  data = getPlottedValueList(filename, xCoords[0])
+  y = data[1] # data[0] is the xCoords
+  val = data[ncol-1]
+  return y, val
+
+
+
 ########## specificly used in plotting 1D figures ##########
+def plotSingleFile(ax, filename):
+  """
+  plot data in single file, new method
+  @param ax: the axis to plot in
+  @param filename: file name of the data
+  @return:
+  """
+  xCoords = getCoordsInX(filename)
+  data = getPlottedValueList(filename, xCoords[0])
+  y = data[1] # data[0] is the xCoords
+  for value in data[2::]:
+    ax.plot(y, value, lw = 2)
+  return
+
+
+
 def readData1D(file, xSkip):
   """
   read the file and get the data list for 1D plotting
@@ -153,15 +280,36 @@ def readData1D(file, xSkip):
   return y, val
 
 
-def readVfb(directory):
+def readVfb(directory, isFile = False):
   """
-  read the flat band voltage shift file in given directory
-  @param directory: the directory of the project
+  read the flat band voltage shift file in given Directory
+  @param directory: the Directory of the project
   @return: time list and vfb list
   """
-  file = os.path.join(directory, vfbFileName)
+  if not isFile:
+    file = os.path.join(directory, Flatband_File_Relpath)
+  else:
+    file = directory
   data = np.loadtxt(file)
   times, vfbs = data[:, 0], data[:, 1]
   return times, vfbs
 
+
   ########## specificly used in plotting 2D figures ##########
+def readData2D(file, skip):
+  data = np.loadtxt(file, skiprows=skip)
+  cols = data.shape[1]
+  x, y, val = data[:, 0], data[:, 1], data[:, 2]
+  x, y = x * Convert_cm_to_nm, y * Convert_cm_to_nm
+  if cols == 3:
+    return x, y , val
+  elif cols == 4:
+    val_second = data[:, 3]
+    return x, y, val, val_second
+
+
+def makeValueGridZ(x, y, values):
+  xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
+  grid_x, grid_y = np.meshgrid(xi, yi)
+  grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='cubic')
+  return grid_z

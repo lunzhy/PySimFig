@@ -1,10 +1,13 @@
 __author__ = 'Lunzhy'
 import matplotlib.pyplot as plt
+import os, sys
+import numpy as np
 
-path = os.path.abspath(os.path.join('..', 'lib'))
+path = os.path.abspath(os.path.join('..\..', 'lib'))
 if not path in sys.path:
   sys.path.append(path)
-from Fitting import *
+from fitting import *
+import common
 
 ############# process the data from experiment ############
 exp_time_5V = [1.07613E-07, 2.08288E-07, 4.66870E-07, 9.96512E-07, 2.12701E-06, 4.65241E-06, 9.93036E-06, 2.17207E-05,
@@ -36,17 +39,17 @@ exp_flatband_8V = [-1.26873, -0.825843, -0.259363, 0.20412, 0.688202, 1.06929, 1
                    2.80993]
 
 # the first item in tuple is time, the second is flatband voltage
-exp_5V = [(time, voltage - min(exp_flatband_5V)) for time, voltage in zip(exp_time_5V, exp_flatband_5V)]
-exp_6V = [(time, voltage - min(exp_flatband_6V)) for time, voltage in zip(exp_time_6V, exp_flatband_6V)]
-exp_7V = [(time, voltage - min(exp_flatband_7V)) for time, voltage in zip(exp_time_7V, exp_flatband_7V)]
-exp_8V = [(time, voltage - min(exp_flatband_8V)) for time, voltage in zip(exp_time_8V, exp_flatband_8V)]
+exp_5V = [(time, voltage) for time, voltage in zip(exp_time_5V, exp_flatband_5V)]
+exp_6V = [(time, voltage) for time, voltage in zip(exp_time_6V, exp_flatband_6V)]
+exp_7V = [(time, voltage) for time, voltage in zip(exp_time_7V, exp_flatband_7V)]
+exp_8V = [(time, voltage) for time, voltage in zip(exp_time_8V, exp_flatband_8V)]
 
 
 #############
 exp_list = [exp_5V, exp_6V, exp_7V, exp_8V]
 
 Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\MANOS'
-Main_project_name = r'Demo' #
+Main_project_name = r'Demo' # Demo, woMFN
 Prj_list = ['5V', '6V', '7V', '8V']
 
 fig = figure()
@@ -55,12 +58,23 @@ ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 for index, prj in enumerate(Prj_list):
   prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
   sim_time, sim_flatband = readVfb(prj_path)
-  plotFittingVfb(ax, index, [x[0] for x in exp_list[index]], [x[1] for x in exp_list[index]], sim_time, sim_flatband)
+  plotFittingVfb(ax, index, getTimeList(exp_list[index]), getFlatbandList(exp_list[index]), sim_time, sim_flatband, prj)
+
+handles, labels = ax.get_legend_handles_labels()
+hl = sorted(zip(handles, labels), key=lambda x: x[1])
+handles_new, labels_new = zip(*hl)
+
+ax.legend(handles_new, labels_new, loc='upper left', ncol=2, columnspacing=1)
+ax.set_xlabel('Programming Time ($s$)')
+ax.set_ylabel('Flatband Voltage Shift ($V$)')
 
 ax.set_xscale('log')
 ax.set_xlim(1e-7, 1)
 ax.set_ylim(-0.5, 6)
-plt.show()
+
+# plt.show()
+
+Common.saveFigure(plt, 'MANOS_MFN')
 
 sys.path.remove(path)
 

@@ -1,56 +1,30 @@
 __author__ = 'Lunzhy'
 import os
-
 from matplotlib.pyplot import *
 
 
-Colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
+Colors = ['black', 'blue',  'red', 'purple', 'fuchsia', 'gray', 'green', 'maroon',
           'navy', 'olive', 'orange', 'lime', 'silver', 'aqua', 'teal']
 Linestyles = ['-', '--']
-Flatband_file_relpath = 'Miscellaneous\VfbShift.txt'
-
-
-def getColor(index):
-  """
-  get color in the colors list
-  """
-  i = index % len(Colors)
-  return Colors[i]
+Markers = ['o', 's', 'v', 'd', 'h']
+Flatband_File_Relpath = 'Miscellaneous\VfbShift.txt'
 
 
 def readVfb(prj_path):
   """
-  read the flat band voltage shift file in given project directory
-  @param directory: the directory of the project
+  read the flat band voltage shift file in given project Directory
+  @param Directory: the Directory of the project
   @return: time list and vfb list
   """
-  file = os.path.join(prj_path, Flatband_file_relpath)
+  file = os.path.join(prj_path, Flatband_File_Relpath)
+  if not os.path.exists(file):
+    return [], []
   data = np.loadtxt(file)
   times, vfbs = data[:, 0], data[:, 1]
   return times, vfbs
 
 
-def plotFittingVfb(ax, index, exp_time, exp_flatband, sim_time, sim_flatband, prj_label=""):
-  """
-  plot the comparison result
-  @param ax:
-  @param index:
-  @param exp_time:
-  @param exp_flatband:
-  @param sim_time:
-  @param sim_flatband:
-  @param prj_label:
-  @return:
-  """
-  exp_label = 'exp %s' % prj_label
-  sim_label = 'sim %s' % prj_label
-  ax.plot(exp_time, exp_flatband, marker='o', ls='None', fillstyle='none', ms=8, mew=3, mec=getColor(index),
-          c=getColor(index), label=exp_label)
-  ax.plot(sim_time, sim_flatband, lw=2, c=getColor(index), label=sim_label)
-  return
-
-
-def getFlatbandList(exp_data, isShift=False):
+def getFlatbandList(exp_data, noShift=False):
   """
   get the flatband voltage shift value list from experiment data
   @param exp_data:
@@ -58,7 +32,7 @@ def getFlatbandList(exp_data, isShift=False):
   @return:
   """
   exp_data = sorted(exp_data, key=lambda x: x[1])
-  if not isShift:
+  if not noShift:
     min_voltage_tuple = min(exp_data, key=lambda x: x[1])
     min_voltage = min_voltage_tuple[1]
   else:
@@ -79,8 +53,68 @@ def getTimeList(exp_data):
   return time_list
 
 
+########################## plot 1D problems ####################
+def getColor(index):
+  """
+  get color in the Colors list
+  """
+  i = index % len(Colors)
+  return Colors[i]
+
+
+def getLinestyle(index):
+  """
+  get the linestyle
+  @param index:
+  @return:
+  """
+  i = index % len(Linestyles)
+  return Linestyles[i]
+
+
+def getMarker(index):
+  """
+  get the marker
+  @param index:
+  @return:
+  """
+  i = index % len(Markers)
+  return Markers[i]
+
+
+def plotExpVfb(ax, index, exp_time, exp_flatband, prj_label=""):
+  exp_label = 'exp %s' % prj_label
+  mark = getMarker(index)
+  ax.plot(exp_time, exp_flatband, marker=mark, ls='None', fillstyle='none', ms=12, mew=3, mec=getColor(index),
+        c=getColor(index), label=exp_label)
+  return
+
+
+def plotFittingVfb(ax, index, sim_time, sim_flatband, prj_label=""):
+  """
+  plot the comparison result
+  @param ax:
+  @param index:
+  @param exp_time:
+  @param exp_flatband:
+  @param sim_time:
+  @param sim_flatband:
+  @param prj_label:
+  @return:
+  """
+  sim_label = 'sim %s' % prj_label
+  if len(index) == 1:
+    color_index = index[0]
+    ls_index = 0
+  else:
+    ls_index = index[0]
+    color_index = index[1]
+  ax.plot(sim_time, sim_flatband, ls=getLinestyle(ls_index), lw=3, c=getColor(color_index), label=sim_label)
+  return
+
+
 def test():
-  file = os.path.join('E:\PhD Study\SimCTM\SctmTest\SolverPackTest', Flatband_file_relpath)
+  file = os.path.join('E:\PhD Study\SimCTM\SctmTest\SolverPackTest', Flatband_File_Relpath)
 
 
 if __name__ == '__main__': test()

@@ -1,19 +1,28 @@
 __author__ = 'Lunzhy'
 import os
-
 import numpy as np
+import common
 
-import Common
+############################# compare 1D result ###############################
+def plotVfbComparation(ax, main_prj_path, prj_list):
+  for index, prj_name in enumerate(prj_list):
+    prj_path = os.path.join(main_prj_path, str(prj_name))
+    time_list, vfb_list = common.readVfb(prj_path)
+    ax.plot(time_list, vfb_list, lw=2, c=common.getColor(index))
+  return
 
 
+
+
+########################### below are odd methods ##############################
 occLimit = 1e-4
 xLimit = 6.5
 
 def plotOccupation(index, directory, title, fig):
   """
   plot the trap occupation rate of the conditions withe various parameters.
-  @param index: the index of the subplot, in 2 row * 3 column
-  @param directory: the directory of the trap occupation data
+  @param index: the prj_index of the subplot, in 2 row * 3 column
+  @param directory: the Directory of the trap occupation data
   @param title: the title of the subplot
   @param fig: the figure which contains the suplots
   @return:
@@ -34,8 +43,8 @@ def plotOccupation(index, directory, title, fig):
 def plotVfb(index, directory, lineLabel, ax):
   """
   plot the flat band voltage shift of the certain condition
-  @param index: the index of the line
-  @param directory: the directory containing the vfb data file
+  @param index: the prj_index of the line
+  @param directory: the Directory containing the vfb data file
   @param lineLabel: the label of the line
   @param ax: the ax containing the line
   @return:
@@ -54,7 +63,7 @@ def plotCmpVfb(fig, paraDir, paraUnit):
   """
   plot the flat band voltage comparision result
   @param fig: the figure containing the plots
-  @param paraDir: name of the parameter, like Xsection, same with the directory name
+  @param paraDir: name of the parameter, like Xsection, same with the Directory name
   @param paraUnit: the unit of the parameter, used in the axis title, like $cm^{-2}$
   @return:
   """
@@ -111,7 +120,7 @@ def plotW_woCompare(fig, dirc):
   """
   plot the with/without comparison result
   @param fig: the fig containing the plot
-  @param dirc: the name directory of the mechanism
+  @param dirc: the name Directory of the mechanism
   @return:
   """
   maindir = os.path.join(Common.w_woDir, dirc)

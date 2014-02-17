@@ -1,10 +1,11 @@
 __author__ = 'Lunzhy'
-
-import os
-path = os.path.abspath(os.path.join('..', 'lib'))
-if not path in sys.path:
-  sys.path.append(path)
-from Fitting import *
+import matplotlib.pyplot as plt
+import os, sys
+Path = os.path.abspath(os.path.join('..\..', 'lib'))
+if not Path in sys.path:
+  sys.path.append(Path)
+from fitting import *
+# from lib.fitting import *
 
 ############# process the data from experiment ############
 # (time, voltage)
@@ -25,33 +26,38 @@ exp_18V = [(9.42269E-07, 1.9958), (2.85918E-06, 2.77311), (7.70295E-06, 3.46639)
            (8.61862E-04, 5.79832), (1.83043E-03, 6.07143), (3.73640E-03, 6.32353), (8.93757E-03, 6.65966),
            (1.82440E-02, 6.93277), (3.72408E-02, 7.16387), (8.90809E-02, 7.43697), (1.89191E-01, 7.71008),
            (3.86190E-01, 7.92017), (8.53362E-01, 8.15126)]
-#############
-exp_list = [exp_14V, exp_16V, exp_18V]
+Exp_list = [exp_14V, exp_16V, exp_18V]
+############################################################
 
-Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Padovani'
-Main_project_name = r'Squeeze' # Demo, Squeeze
+Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Padovani_B'
+Main_project_name = [r'WithT2B-J', r'Squeeze'] # Demo, Squeeze, WithT2B-J, WithT2B-V, noT2B-J
 Prj_list = ['14V', '16V', '18V']
 
 fig = figure()
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
-for index, prj in enumerate(Prj_list):
-  prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
-  sim_time, sim_flatband = readVfb(prj_path)
-  plotFittingVfb(ax, index, getTimeList(exp_list[index]), getFlatbandList(exp_list[index], True), sim_time,
-                 sim_flatband)
+for prj_index, prj in enumerate(Prj_list):
+  plotExpVfb(ax, prj_index, getTimeList(Exp_list[prj_index]), getFlatbandList(Exp_list[prj_index], True))
+  for main_index, main_prj in enumerate(Main_project_name):
+    prj_path = os.path.join(Fitting_base_dir, main_prj, prj)
+    sim_time, sim_flatband = readVfb(prj_path)
+    plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
+
 
 handles, labels = ax.get_legend_handles_labels()
 hl = sorted(zip(handles, labels), key=lambda x: x[1])
 handles_new, labels_new = zip(*hl)
 
-ax.legend(handles_new, labels_new, loc='upper left', ncol=2, columnspacing=1)
+#TODO: label order has to be enhanced
+ax.legend(handles_new, labels_new, loc='upper left', ncol=3, columnspacing=1)
 ax.set_xlabel('Programming Time ($s$)')
 ax.set_ylabel('Flatband Voltage Shift ($V$)')
 
 ax.set_xscale('log')
-ax.set_xlim(1e-9, 1e1)
-ax.set_ylim(-0.5, 8)
+ax.set_xlim(1e-12, 2)
+ax.set_ylim(0, 10)
 
-sys.path.remove(path)
+plt.show()
+
+sys.path.remove(Path)
 

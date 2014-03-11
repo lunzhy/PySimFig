@@ -5,7 +5,7 @@ import numpy as np
 
 path = os.path.abspath(os.path.join('..\..', 'lib'))
 if not path in sys.path:
-  sys.path.append(path)
+    sys.path.append(path)
 from fitting import *
 import common
 
@@ -49,16 +49,17 @@ exp_8V = [(time, voltage) for time, voltage in zip(exp_time_8V, exp_flatband_8V)
 exp_list = [exp_5V, exp_6V, exp_7V, exp_8V]
 
 Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\MANOS'
-Main_project_name = r'Demo' # Demo, woMFN
+Main_project_name = r'Demo'  # Demo, woMFN
 Prj_list = ['5V', '6V', '7V', '8V']
 
 fig = figure()
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
 for index, prj in enumerate(Prj_list):
-  prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
-  sim_time, sim_flatband = readVfb(prj_path)
-  plotFittingVfb(ax, index, getTimeList(exp_list[index]), getFlatbandList(exp_list[index]), sim_time, sim_flatband, prj)
+    prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
+    sim_time, sim_flatband = readVfb(prj_path)
+    plotFittingVfb(ax, index, getTimeList(exp_list[index]), getFlatbandList(exp_list[index]), sim_time, sim_flatband,
+                   prj)
 
 handles, labels = ax.get_legend_handles_labels()
 hl = sorted(zip(handles, labels), key=lambda x: x[1])

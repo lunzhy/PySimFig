@@ -1,9 +1,10 @@
 __author__ = 'Lunzhy'
 import matplotlib.pyplot as plt
 import os, sys
+
 Path = os.path.abspath(os.path.join('..\..', 'lib'))
 if not Path in sys.path:
-  sys.path.append(Path)
+    sys.path.append(Path)
 from fitting import *
 # from lib.fitting import *
 
@@ -30,19 +31,18 @@ Exp_list = [exp_14V, exp_16V, exp_18V]
 ############################################################
 
 Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Padovani_B'
-Main_project_name = [r'WithT2B-J', r'Squeeze'] # Demo, Squeeze, WithT2B-J, WithT2B-V, noT2B-J
+Main_project_name = [r'WithT2B-J', r'Squeeze']  # Demo, Squeeze, WithT2B-J, WithT2B-V, noT2B-J
 Prj_list = ['14V', '16V', '18V']
 
 fig = figure()
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
 for prj_index, prj in enumerate(Prj_list):
-  plotExpVfb(ax, prj_index, getTimeList(Exp_list[prj_index]), getFlatbandList(Exp_list[prj_index], True))
-  for main_index, main_prj in enumerate(Main_project_name):
-    prj_path = os.path.join(Fitting_base_dir, main_prj, prj)
-    sim_time, sim_flatband = readVfb(prj_path)
-    plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
-
+    plotExpVfb(ax, prj_index, getTimeList(Exp_list[prj_index]), getFlatbandList(Exp_list[prj_index], True))
+    for main_index, main_prj in enumerate(Main_project_name):
+        prj_path = os.path.join(Fitting_base_dir, main_prj, prj)
+        sim_time, sim_flatband = readVfb(prj_path)
+        plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
 
 handles, labels = ax.get_legend_handles_labels()
 hl = sorted(zip(handles, labels), key=lambda x: x[1])

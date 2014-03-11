@@ -1,24 +1,22 @@
 import matplotlib.pyplot as plt
 import os, sys
+path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
+if not path in sys.path:
+    sys.path.append(path)
+import lib.common as cm
 
-Path = os.path.abspath(os.path.join('..', 'lib'))
-if not Path in sys.path:
-  sys.path.append(Path)
-import common
-
-Work_Directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest\Band'
-File_Name_Base = 'band_s[].txt'
-
-File_Name_Plot = os.path.join(Work_Directory, 'band_s1.txt')
+Band_directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest\Band'
 
 def main():
-  fig = plt.figure()
-  ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-  common.plotSingleFile(ax, File_Name_Plot)
-  plt.show()
-
-  sys.path.remove(Path)
-  return
+    fig = plt.figure()
+    ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    time = 1.5e-9
+    file = cm.searchFilePathByTime(Band_directory, 'band', time)
+    yCoords, cb_edge = cm.getDataAlongY_1D(file, 2)  # the fourth column in the file
+    dummy, vb_edge = cm.getDataAlongY_1D(file, 3)
+    ax.plot(yCoords, cb_edge, yCoords, vb_edge)
+    plt.show()
+    return
 
 
 if __name__ == '__main__': main()

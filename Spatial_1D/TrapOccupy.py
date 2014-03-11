@@ -13,11 +13,11 @@ xList, xVertCnt = Common.sliceX(files[0])
 fig = plt.figure()
 ax = fig.add_axes([0.1, 0.1, 0.55, 0.8])
 for file in files:
-  y, occup = Common.readData1D(file, xVertCnt)
-  xLimit = max(y)
-  if Common.isPlot(file) and max(occup) > yLimit:
-    time, timelabel = Common.getTimeLabel(file)
-    ax.plot(y, occup, lw=2, label=timelabel)
+    y, occup = Common.readData1D(file, xVertCnt)
+    xLimit = max(y)
+    if Common.isPlot(file) and max(occup) > yLimit:
+        time, timelabel = Common.getTimeLabel(file)
+        ax.plot(y, occup, lw=2, label=timelabel)
 
 ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 ax.set_xlabel('Coordinates along trapping layer (${nm}$)')

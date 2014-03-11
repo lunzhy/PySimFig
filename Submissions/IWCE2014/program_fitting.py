@@ -7,7 +7,7 @@ from matplotlib import font_manager
 
 Path = os.path.abspath(os.path.join('..', 'lib'))
 if not Path in sys.path:
-  sys.path.append(Path)
+    sys.path.append(Path)
 # from lib.fitting import *
 
 ############# process the data from experiment ############
@@ -39,20 +39,19 @@ Exp_list = [Exp_12V, Exp_14V, Exp_16V, Exp_18V]
 ############################################################
 
 Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Padovani_C'
-Main_project_name = [r'Paper'] # Demo, Paper
+Main_project_name = [r'Paper']  # Demo, Paper
 Prj_list = ['12V', '14V', '16V', '18V']
 
 fig = figure()
 ax = fig.add_axes([0.13, 0.17, 0.75, 0.75])
 
 for prj_index, prj in enumerate(Prj_list):
-  plotExpVfb(ax, prj_index, getTimeList(Exp_list[prj_index]), getFlatbandList(Exp_list[prj_index], True), prj)
-  for main_index, main_prj in enumerate(Main_project_name):
-    prj_path = os.path.join(Fitting_base_dir, main_prj, prj)
-    sim_time, sim_flatband = readVfb(prj_path)
-    if len(sim_time) == 0: pass
-    plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
-
+    plotExpVfb(ax, prj_index, getTimeList(Exp_list[prj_index]), getFlatbandList(Exp_list[prj_index], True), prj)
+    for main_index, main_prj in enumerate(Main_project_name):
+        prj_path = os.path.join(Fitting_base_dir, main_prj, prj)
+        sim_time, sim_flatband = readVfb(prj_path)
+        if len(sim_time) == 0: pass
+        plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
 
 handles, labels = ax.get_legend_handles_labels()
 hl = sorted(zip(handles, labels), key=lambda x: x[1])
@@ -69,14 +68,14 @@ ax.set_ylim(0, 9)
 
 
 ### boders
-for axis in ['top','bottom','left','right']:
-  ax.spines[axis].set_linewidth(2)
+for axis in ['top', 'bottom', 'left', 'right']:
+    ax.spines[axis].set_linewidth(2)
 
 ### legend
 legend_font = font_manager.FontProperties(family='times new roman', style='normal',
                                           size=22, weight='normal', stretch='normal')
 for item in (legend.get_texts()):
-  item.set_fontproperties(legend_font)
+    item.set_fontproperties(legend_font)
 legend.set_frame_on(False)
 
 ### axis label
@@ -85,9 +84,9 @@ ticks_font = font_manager.FontProperties(family='times new roman', style='normal
 labels_font = font_manager.FontProperties(family='times new roman', style='normal',
                                           size=26, weight='normal', stretch='normal')
 for item in ([ax.xaxis.label, ax.yaxis.label] ):
-  item.set_fontproperties(labels_font)
+    item.set_fontproperties(labels_font)
 for item in (ax.get_xticklabels() + ax.get_yticklabels()):
-  item.set_fontproperties(ticks_font)
+    item.set_fontproperties(ticks_font)
 
 ### axis tick
 ax.xaxis.set_tick_params(which='major', width=2, size=5)
@@ -96,7 +95,7 @@ ax.yaxis.set_tick_params(which='major', width=2, size=5)
 ax.yaxis.set_tick_params(which='minor', width=2, size=3)
 
 for tick in ax.get_xaxis().get_major_ticks():
-  tick.set_pad(8.)
+    tick.set_pad(8.)
 
 # fig_name = os.path.join(Save_Fig_Folder, "P_Fitting")
 # plt.savefig(fig_name, dpi = 1020, bbox_inches='tight', pad_inches=0.1)

@@ -1,11 +1,13 @@
 __author__ = 'Lunzhy'
 
-import matplotlib.pyplot as plt
 import os, sys
-Path = os.path.abspath(os.path.join('..\..', 'lib'))
-if not Path in sys.path:
-  sys.path.append(Path)
-from fitting import *
+import matplotlib.pyplot as plt
+
+path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..\..'))
+if not path in sys.path:
+    sys.path.append(path)
+import lib.compare as cmp
+import lib.fitting as ft
 
 ############# process the data from experiment ############
 # Padovani, APL09', Sample A2, 4.5/7/12
@@ -19,25 +21,23 @@ Expr = dict(items)
 ###########################################################
 Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Retention\Padovani_A2'
 # Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Retention_2D'
-Main_project_name = r'Demo' # Demo
-Prj_list =['375K', '425K']
+Main_project_name = r'Demo'  # Demo
+Prj_list = ['375K', '425K']
 
-
-fig = figure()
+fig = plt.figure()
 ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
 for prj_index, prj in enumerate(Prj_list):
-  time_exp = getTimeList(Expr[prj])
-  vfb_exp = getFlatbandList(Expr[prj], True)
-  plotExpVfb(ax, prj_index, time_exp, vfb_exp, prj)
-  prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
-  time_sim, vfb_sim = readVfb(prj_path)
-  plotFittingVfb(ax, (prj_index,), time_sim, vfb_sim, prj)
+    time_exp = ft.getTimeList(Expr[prj])
+    vfb_exp = ft.getFlatbandList(Expr[prj], True)
+    ft.plotExpVfb(ax, prj_index, time_exp, vfb_exp, prj)
+    prj_path = os.path.join(Fitting_base_dir, Main_project_name, prj)
+    time_sim, vfb_sim = ft.readVfb(prj_path)
+    ft.plotFittingVfb(ax, (prj_index,), time_sim, vfb_sim, prj)
 
 ax.legend(loc='lower left', ncol=3, columnspacing=1)
 ax.set_xlabel('Programming Time ($s$)')
 ax.set_ylabel('Flatband Voltage Shift ($V$)')
-
 
 ax.set_xscale('log')
 ax.set_xlim(1, 1e6)
@@ -45,4 +45,4 @@ ax.set_ylim(2, 5.5)
 
 plt.show()
 
-sys.path.remove(Path)
+sys.path.remove(path)

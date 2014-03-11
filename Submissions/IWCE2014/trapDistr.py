@@ -19,10 +19,10 @@ ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 x, y, trapdens = common.readData2D(File_path, 1)
 
 xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
-xi, yi = np.meshgrid (xi, yi)
+xi, yi = np.meshgrid(xi, yi)
 grid_zi = scipy.interpolate.griddata((x, y), trapdens, (xi, yi), method='cubic')
 
-plt.imshow(grid_zi, cmap=plt.cm.jet,vmin=min(trapdens), vmax=max(trapdens), origin='lower',
+plt.imshow(grid_zi, cmap=plt.cm.jet, vmin=min(trapdens), vmax=max(trapdens), origin='lower',
            extent=[min(x), max(x), min(y), max(y)], aspect='auto')
 plt.colorbar()
 plt.show()

@@ -5,26 +5,39 @@ import matplotlib.pyplot as plt
 import scipy.interpolate
 from matplotlib.colors import LogNorm
 from operator import itemgetter
+path = os.path.abspath(os.path.dirname(__file__))
+if not path in sys.path:
+    sys.path.append(path)
+import parameter as param
 
 
 ############ global variables used in PySimFig ##############
-Directory_Debug = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
-Directory = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
-Dir_Cmp = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
-Dir_W_WO = r'E:\PhD Study\SimCTM\SctmTest\W_WO';
-Dir_SaveFig = r'E:\PhD Study\SimCTM\SctmTest\figures'
+# platform related
+Debug_Folder_Path = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
+Default_Parfile_Path = r'E:\PhD Study\SimCTM\default.param'
+
+#file and folder name of relative path
 Flatband_File_Relpath = 'Miscellaneous\VfbShift.txt'
 TrapDistr_Folder = 'Trap'
 Potential_Folder = 'Potential'
+User_Param_File = r'user.param'
+Vfb_File = 'VfbShift.txt'
 
-#Colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+# related to matplotlib
 Colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
           'navy', 'olive', 'orange', 'lime', 'silver', 'aqua', 'teal']
 Linestyles = ['-', '--']
 Markers = ['o', 's', 'v', 'd', 'h']
 
-Vfb_File_Name = 'VfbShift.txt'
+# physics
 Convert_cm_to_nm = 1e7
+
+############ global parameters not in used ##################
+Dir_Cmp = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
+Dir_W_WO = r'E:\PhD Study\SimCTM\SctmTest\W_WO';
+Dir_SaveFig = r'E:\PhD Study\SimCTM\SctmTest\figures'
+
+
 
 ########### the common functions of PySimFig ###############
 def getMarker(index):
@@ -76,7 +89,7 @@ def fileCount(nameString):
     return num
 
 
-def getCoordsInX(file):
+def getCoordsInXY(file, mode='x'):
     """
     get the coordinates in x direction, new
     @param file: name of the data file
@@ -84,24 +97,33 @@ def getCoordsInX(file):
     """
     f = open(file)
     info = f.readline()
-    xCoord_list = []
+    coord_list = []
     while (True):
         line = f.readline()
-        var_list = line.split()
-        xCoord = var_list[0]
-        if xCoord in xCoord_list:
+        if not line:
             break
-        else:
-            xCoord_list.append(xCoord)
+        var_list = line.split()
+        if mode=='x':
+            coord = var_list[0]
+            if coord in coord_list:
+                break
+            else:
+                coord_list.append(coord)
+        elif mode=='y':
+            coord = var_list[1]
+            if coord in coord_list:
+                continue
+            else:
+                coord_list.append(coord)
     f.close()
-    return xCoord_list
+    return coord_list
 
 
-def getPlottedValueList(file, xCoord):
+def getPlottedValueList(file, coord, mode='x'):
     """
     get the value list to be plotted, new
     @param file: data file name
-    @param xCoord: (string) the coordinate in x direction
+    @param coord: (string) the coordinate in x direction
     @return:
     """
     f = open(file)
@@ -111,35 +133,17 @@ def getPlottedValueList(file, xCoord):
         if not line:
             continue
         line_data = line.split()
-        if line_data[0] == xCoord:
+        if mode=='x':
+            index = 0
+        elif mode=='y':
+            index = 1
+        if line_data[index] == coord:
             line_data = [float(value) for value in line_data]
             line_data[0] = line_data[0] * Convert_cm_to_nm
             line_data[1] = line_data[1] * Convert_cm_to_nm
             data_tupleList.append(tuple(line_data))
     data_list = list(zip(*data_tupleList))
     return data_list
-
-
-def sliceX(file):
-    """
-    old
-    sliceX gets the list of x coordinates and the number of vertex in x direction
-    @param file:
-    @return:
-    """
-    f = open(file)
-    info = f.readline()
-    currY = 0
-    xList = []
-    while (True):
-        aLine = f.readline()
-        aList = aLine.split()
-        if len(xList) == 0 or currY == aList[1]:
-            xList.append(aList[0])
-        else:
-            break
-    f.close()
-    return xList, len(xList)
 
 
 def getTimeLabel(filename):
@@ -261,31 +265,42 @@ def getDataAlongY_1D(filename, col_index):
     @param col_index: the column index of the required data in the file
     @return: y coordinates list, required data list
     """
-    xCoords = getCoordsInX(filename)
+    xCoords = getCoordsInXY(filename)
     data = getPlottedValueList(filename, xCoords[0])
     y = data[1]  # data[0] is the xCoords
     val = data[col_index]
     return y, val
 
 
-def readData1D(file, xSkip):
-    """
-    odd
-    read the file and get the data list for 1D plotting
-    @param file:
-    @param xSkip:
-    @return:
-    """
-    data = np.loadtxt(file, skiprows=1)
-    x, y, val = data[:, 0], data[:, 1], data[:, 2]
-    x, y = x / 1e-7, y / 1e-7
-    x, y = x - min(x), y - min(y)
-    # get the first slice of the data, i.e. the slice with x=0
-    y, val = y[::xSkip], val[::xSkip]
+########## specificly used in plotting 2D figures ##########
+def cutAlongXY(filename, coord_in_nm, col_index, along='x'):
+    # the along value is different from align value
+    if along == 'x':
+        align = 'y'
+        data_index = 0
+    elif along == 'y':
+        align = 'x'
+        data_index = 1
+    coords_list = getCoordsInXY(filename, align)
+    coord_in_cm = coord_in_nm * 1e-7
+    coord_diff = [math.fabs(coord_in_cm - float(coord)) for coord in coords_list]
+    min_index = coord_diff.index(min(coord_diff))
+    data = getPlottedValueList(filename, coords_list[min_index], align)
+    x_or_y = data[data_index]
+    val = data[col_index]
+    return x_or_y, val
+
+
+def cutAlongY(filename, x_in_nm, col_index):
+    xCoords = getCoordsInXY(filename, 'x')
+    x_in_cm = x_in_nm * 1e-7
+    coord_diff = [math.fabs(x_in_cm - float(coord)) for coord in xCoords]
+    min_index = coord_diff.index(min(coord_diff))
+    data = getPlottedValueList(filename, xCoords[min_index], 'x')
+    y = data[0]
+    val = data[col_index]
     return y, val
 
-
-########## specificly used in plotting 2D figures ##########
 
 def readData2D(file, skip = 1):
     data = np.loadtxt(file, skiprows=skip)
@@ -305,3 +320,29 @@ def makeValueGridZ(x, y, values):
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
     return grid_z
+
+
+def makeValueGridzWithMask(x, y, values, prj_path):
+    xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
+    grid_x, grid_y = np.meshgrid(xi, yi)
+    grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
+
+    tunnel_thick = float(param.getParamValue('tc.tunnel.thick', prj_path))
+    trap_thick = float(param.getParamValue('tc.trap.thick', prj_path))
+    block_thick = float(param.getParamValue('tc.block.thick', prj_path))
+    gate1_width = float(param.getParamValue('tc.gate1.width', prj_path))
+    iso2_width = float(param.getParamValue('tc.iso2.width', prj_path))
+    gate2_width = float(param.getParamValue('tc.gate2.width', prj_path))
+    iso3_width = float(param.getParamValue('tc.iso3.width', prj_path))
+    gate3_width = float(param.getParamValue('tc.gate3.width', prj_path))
+    main_thick = tunnel_thick + trap_thick + block_thick
+
+    mask_y = np.array(grid_y > main_thick)
+    mask_x_gate1 = np.array( grid_x < gate1_width)
+    mask_x_gate2 = np.logical_and(grid_x > gate1_width + iso2_width,
+                                grid_x < gate1_width + iso2_width + gate2_width)
+    mask_x_gate3 = np.logical_and(grid_x> gate1_width + iso2_width + gate2_width + iso3_width,
+                                  grid_x <= gate1_width + iso2_width + gate2_width + iso3_width + gate3_width)
+    mask_z = mask_y & (mask_x_gate1 | mask_x_gate2 | mask_x_gate3)
+    grid_z_masked = np.ma.array(grid_z, mask=mask_z)
+    return grid_z_masked

@@ -9,7 +9,7 @@ import math
 from matplotlib.colors import LogNorm
 
 File_relpath = r'Miscellaneous\TrapInfo.txt'
-# File_path = os.path.join(common.Directory_Debug, File_relpath)
+# File_path = os.path.join(common.Debug_Folder_Path, File_relpath)
 Prj_path = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Retention\2D\Demo\300K'
 File_path = os.path.join(Prj_path, File_relpath)
 

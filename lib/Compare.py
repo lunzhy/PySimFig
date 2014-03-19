@@ -30,6 +30,9 @@ def plotEdensityComp(ax, main_prj_path, prj_list, time):
     return
 
 
+
+
+#################################################################################
 ######################## below are methods only previously used #################
 occLimit = 1e-4
 xLimit = 6.5

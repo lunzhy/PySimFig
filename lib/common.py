@@ -1,23 +1,28 @@
 __author__ = 'Lunzhy'
-import re, math, os, sys
+import re, math, os, sys, platform
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.interpolate
 from matplotlib.colors import LogNorm
 from operator import itemgetter
-path = os.path.abspath(os.path.dirname(__file__))
+path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-import parameter as param
+from . import *
+# import lib.parameter
 
 
 ############ global variables used in PySimFig ##############
 # platform related
-Debug_Folder_Path = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
-Default_Parfile_Path = r'E:\PhD Study\SimCTM\default.param'
+if platform.system() == 'Window':
+    Debug_Folder_Path = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
+    Default_Parfile_Path = r'E:\PhD Study\SimCTM\default.param'
+elif platform.system() == 'Linux':
+    Debug_Folder_Path = r'/home/lunzhy/SimCTM/debug'
+    Default_Parfile_Path = r'/home/lunzhy/SimCTM/default.param'
 
 #file and folder name of relative path
-Flatband_File_Relpath = 'Miscellaneous\VfbShift.txt'
+Flatband_File_Relpath = os.path.join('Miscellaneous', os.pardir, 'VfbShift.txt')
 TrapDistr_Folder = 'Trap'
 Potential_Folder = 'Potential'
 User_Param_File = r'user.param'

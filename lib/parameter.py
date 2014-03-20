@@ -1,6 +1,7 @@
 __author__ = 'Lunzhy'
 import os, re, sys
 path = os.path.abspath(os.path.dirname(__file__))
+#path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir))
 if not path in sys.path:
     sys.path.append(path)
 import common as cm

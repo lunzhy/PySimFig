@@ -8,7 +8,7 @@ from matplotlib import font_manager
 Path = os.path.abspath(os.path.join('..', 'lib'))
 if not Path in sys.path:
     sys.path.append(Path)
-# from lib.fitting import *
+# from lib.ft import *
 
 ############# process the data from experiment ############
 # Padovani, EDL09', Sample C, 4/8.7/11.5

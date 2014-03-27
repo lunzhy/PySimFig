@@ -24,7 +24,7 @@ def readVfb(prj_path):
     return times, vfbs
 
 
-def getFlatbandList(exp_data, noShift=False):
+def getFlatbandList(exp_data, isShift=True):
     """
     get the flatband voltage shift value list from experiment data
     @param exp_data:
@@ -32,7 +32,7 @@ def getFlatbandList(exp_data, noShift=False):
     @return:
     """
     exp_data = sorted(exp_data, key=lambda x: x[1])
-    if not noShift:
+    if not isShift:
         min_voltage_tuple = min(exp_data, key=lambda x: x[1])
         min_voltage = min_voltage_tuple[1]
     else:
@@ -94,9 +94,7 @@ def plotFittingVfb(ax, index, sim_time, sim_flatband, prj_label=""):
     """
     plot the comparison result
     @param ax:
-    @param index:
-    @param exp_time:
-    @param exp_flatband:
+    @param index: (color index, ls index)
     @param sim_time:
     @param sim_flatband:
     @param prj_label:

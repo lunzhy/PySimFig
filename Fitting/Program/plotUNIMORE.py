@@ -6,9 +6,10 @@ Path = os.path.abspath(os.path.join('..\..', 'lib'))
 if not Path in sys.path:
     sys.path.append(Path)
 from fitting import *
-# from lib.fitting import *
+# from lib.ft import *
 
 ############# process the data from experiment ############
+# Padovani, EDL09', Sample B, 4/5/11.5
 # (time, voltage)
 exp_14V = [(9.80374E-07, 0.0630252), (3.09510E-06, 0.189076), (8.33855E-06, 0.462185), (1.77095E-05, 0.777311),
            (3.76117E-05, 1.17647), (8.99682E-05, 1.63866), (1.83649E-04, 2.07983), (3.90036E-04, 2.43697),

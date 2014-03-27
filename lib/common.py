@@ -14,15 +14,15 @@ from . import *
 
 ############ global variables used in PySimFig ##############
 # platform related
-if platform.system() == 'Window':
+if platform.system() == 'Windows':
     Debug_Folder_Path = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
-    Default_Parfile_Path = r'E:\PhD Study\SimCTM\default.param'
+    Default_Parfile_Path = r'E:\MyCode\SimCTM\SimCTM\default.param'
 elif platform.system() == 'Linux':
     Debug_Folder_Path = r'/home/lunzhy/SimCTM/debug'
     Default_Parfile_Path = r'/home/lunzhy/SimCTM/default.param'
 
 #file and folder name of relative path
-Flatband_File_Relpath = os.path.join('Miscellaneous', os.pardir, 'VfbShift.txt')
+Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
 TrapDistr_Folder = 'Trap'
 Potential_Folder = 'Potential'
 User_Param_File = r'user.param'

@@ -8,8 +8,7 @@ from operator import itemgetter
 path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-from . import *
-# import lib.parameter
+
 
 
 ############ global variables used in PySimFig ##############
@@ -215,7 +214,7 @@ def saveFigure(fig, name):
     @param name:
     @return:
     """
-    figname = os.path.join(common.figSaveDir, name)
+    figname = os.path.join(Dir_SaveFig, name)
     fig.savefig(figname, dpi=600)
     return
 
@@ -278,7 +277,7 @@ def getDataAlongY_1D(filename, col_index):
 
 
 ########## specificly used in plotting 2D figures ##########
-def cutAlongXY(filename, coord_in_nm, col_index, along='x'):
+def cutAlongXY(filename, coord_in_nm, along='x'):
     # the along value is different from align value
     if along == 'x':
         align = 'y'
@@ -291,9 +290,12 @@ def cutAlongXY(filename, coord_in_nm, col_index, along='x'):
     coord_diff = [math.fabs(coord_in_cm - float(coord)) for coord in coords_list]
     min_index = coord_diff.index(min(coord_diff))
     data = getPlottedValueList(filename, coords_list[min_index], align)
-    x_or_y = data[data_index]
-    val = data[col_index]
-    return x_or_y, val
+    # x_or_y = data[data_index]
+    # val = data[col_index]
+    values = (data[0], data[1])
+    for col in range(2, len(data)):
+        values = values + (data[col],)
+    return values
 
 
 def cutAlongY(filename, x_in_nm, col_index):
@@ -307,17 +309,15 @@ def cutAlongY(filename, x_in_nm, col_index):
     return y, val
 
 
-def readData2D(file, skip = 1):
+def readData2D(file, skip=1):
     data = np.loadtxt(file, skiprows=skip)
     cols = data.shape[1] # return ndarray shape
-    x, y, val = data[:, 0], data[:, 1], data[:, 2]
+    x, y = data[:, 0], data[:, 1]
     x, y = x * Convert_cm_to_nm, y * Convert_cm_to_nm
-    if cols == 3:
-        return x, y, val
-    elif cols == 4:
-        val_second = data[:, 3]
-        return x, y, val, val_second
-    return None
+    values = (x, y)
+    for col in range(2, cols):
+        values = values + (data[:, col],)
+    return values
 
 
 def makeValueGridZ(x, y, values):
@@ -328,18 +328,19 @@ def makeValueGridZ(x, y, values):
 
 
 def makeValueGridzWithMask(x, y, values, prj_path):
+    from .parameter import getParamValue
     xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
 
-    tunnel_thick = float(param.getParamValue('tc.tunnel.thick', prj_path))
-    trap_thick = float(param.getParamValue('tc.trap.thick', prj_path))
-    block_thick = float(param.getParamValue('tc.block.thick', prj_path))
-    gate1_width = float(param.getParamValue('tc.gate1.width', prj_path))
-    iso2_width = float(param.getParamValue('tc.iso2.width', prj_path))
-    gate2_width = float(param.getParamValue('tc.gate2.width', prj_path))
-    iso3_width = float(param.getParamValue('tc.iso3.width', prj_path))
-    gate3_width = float(param.getParamValue('tc.gate3.width', prj_path))
+    tunnel_thick = float(getParamValue('tc.tunnel.thick', prj_path))
+    trap_thick = float(getParamValue('tc.trap.thick', prj_path))
+    block_thick = float(getParamValue('tc.block.thick', prj_path))
+    gate1_width = float(getParamValue('tc.gate1.width', prj_path))
+    iso2_width = float(getParamValue('tc.iso2.width', prj_path))
+    gate2_width = float(getParamValue('tc.gate2.width', prj_path))
+    iso3_width = float(getParamValue('tc.iso3.width', prj_path))
+    gate3_width = float(getParamValue('tc.gate3.width', prj_path))
     main_thick = tunnel_thick + trap_thick + block_thick
 
     mask_y = np.array(grid_y > main_thick)
@@ -351,3 +352,23 @@ def makeValueGridzWithMask(x, y, values, prj_path):
     mask_z = mask_y & (mask_x_gate1 | mask_x_gate2 | mask_x_gate3)
     grid_z_masked = np.ma.array(grid_z, mask=mask_z)
     return grid_z_masked
+
+
+def makeValueGridzWithGateStackMask(x, y, values, prj_path):
+    from .parameter import getParamValue
+    xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
+    grid_x, grid_y = np.meshgrid(xi, yi)
+    grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
+
+    tunnel_thick = float(getParamValue('tc.tunnel.thick', prj_path))
+    trap_thick = float(getParamValue('tc.trap.thick', prj_path))
+    block_thick = float(getParamValue('tc.block.thick', prj_path))
+    main_thick = tunnel_thick + trap_thick + block_thick
+
+    mask_y = np.array(grid_y > main_thick)
+    grid_z_masked = np.ma.array(grid_z, mask=mask_y)
+    return grid_z_masked
+
+
+if __name__ == '__main__':
+    pass

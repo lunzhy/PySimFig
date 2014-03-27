@@ -13,8 +13,9 @@ prj_list = ['1', '1e-2', '1e-7']
 # prj_list = [os.path.join(Main_path, prj) for prj in prj_list]
 Time = 1e-2
 
-Debug_path = r'E:\PhD Study\SimCTM\SctmTest\SolverPackTest'
+Debug_path = r'/home/lunzhy/SimCTM/debug'
 Time_list = [1e-1, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6]
+# Time_list = [1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 
 
 def plotCutAlongX():
@@ -23,9 +24,9 @@ def plotCutAlongX():
     for index, time in enumerate(Time_list):
         trap_dir = os.path.join(Debug_path, 'Trap')
         file = cm.searchFilePathByTime(trap_dir, 'Occ', time)
-        xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10, col_index=3, along='x')
-        # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=80, col_index=3, along='y')
-        ax.plot(xCoord, occ, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+        # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10.5, col_index=3, along='x')
+        x, y, dens, occ = cm.cutAlongXY(file, coord_in_nm=60, along='y')
+        ax.plot(y, occ, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
     ax.set_ylabel('Trap Occupation Rate')
     ax.set_ylim(0, 1)

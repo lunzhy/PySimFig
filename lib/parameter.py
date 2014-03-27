@@ -1,10 +1,11 @@
 __author__ = 'Lunzhy'
+T = 'ab'
 import os, re, sys
-path = os.path.abspath(os.path.dirname(__file__))
-#path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir))
+# path = os.path.abspath(os.path.dirname(__file__))
+path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-import common as cm
+import lib.common as cm
 
 def getParamValue(param_name, prj_path):
     default_param_path = cm.Default_Parfile_Path
@@ -29,4 +30,5 @@ def test():
     getParamValue('tc.tunnel.thick', cm.Debug_Folder_Path)
 
 
-if __name__ == '__main__' : test()
+if __name__ == '__main__':
+    test()

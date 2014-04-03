@@ -10,14 +10,17 @@ from matplotlib.colors import LogNorm
 
 
 Target_directory = comm.Debug_Folder_Path
-Target_directory = '/home/lunzhy/SimCTM/projects/SISPAD2014/retention/diff_thick/trap4'
+Target_directory = r'/home/lunzhy/SimCTM/projects/SISPAD2014/retention/4nm_350K_1.6eV_PF2e11_T2B5e5'
+# Target_directory = '/home/lunzhy/SimCTM/projects/SISPAD2014/retention/diff_thick/trap6'
+# Target_directory = '/home/lunzhy/SimCTM/projects/SISPAD2014/program/demo'
 TrapDistr_directory = os.path.join(Target_directory, comm.TrapDistr_Folder)
 Trap_file_pattern = 'trapOccupation'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [1e-2, 1e-1]
 # Time_list = [1e2, 1e3, 1e4, 5e4, 1e5, 5e5, 1e6]
-Time_list = [1e-1, 1, 10, 1e2, 1e3, 1e4, 1e5, 5e5, 1e6]
+Time_list = [1e-1, 1e2, 1e4, 1e5, 5e5, 1e6, 1e7]
+# Time_list = [1e5, 5e5, 1e6, 1e7]
 
 def plotSingleTime(ax, prj_path, time):
     trapDistr_directory = os.path.join(prj_path, comm.TrapDistr_Folder)
@@ -57,7 +60,7 @@ def main():
     # hit_file = common.searchFileNameByTime(TrapDistr_directory, Trap_file_pattern, 1)
     # plotSingleTime(hit_file)
     # plotTimesInOneFig(Time_list)
-    plotTimesInFigs(comm.Debug_Folder_Path, Time_list)
+    plotTimesInFigs(Target_directory, Time_list)
     plt.show()
     return
 

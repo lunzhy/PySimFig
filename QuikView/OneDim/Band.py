@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 Debug_path = cm.Debug_Folder_Path
-Time_list = [0.01]
+Time_list = [1e5]
 
 def plotCut():
     fig = plt.figure()
@@ -17,9 +17,9 @@ def plotCut():
         band_dir = os.path.join(Debug_path, 'Band')
         file = cm.searchFilePathByTime(band_dir, 'band', time)
         # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10.5, col_index=3, along='x')
-        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=0, along='y')
-        ax.plot(y, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-        ax.plot(y, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=8, align='y')
+        ax.plot(x, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+        ax.plot(x, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
     ax.set_ylabel('Trap Occupation Rate')
     # ax.set_ylim(0, 1)

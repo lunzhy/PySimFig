@@ -16,10 +16,10 @@ def plotCut():
     for index, time in enumerate(Time_list):
         band_dir = os.path.join(Debug_path, 'Current')
         file = cm.searchFilePathByTime(band_dir, 'eCurr', time)
-        x, y, curr, xcurr, ycurr = cm.cutAlongXY(file, coord_in_nm=2, along='y')
+        x, y, curr, xcurr, ycurr = cm.cutAlongXY(file, coord_in_nm=2, align='y')
         # ycurr = [math.fabs(current) for current in curr]
         # ax.plot(y, ycurr, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-        x, y, curr, xcurr, ycurr = cm.cutAlongXY(file, coord_in_nm=4.2, along='x')
+        x, y, curr, xcurr, ycurr = cm.cutAlongXY(file, coord_in_nm=4.2, align='x')
         ax.plot(x, xcurr, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
     ax.set_ylabel('Current density')

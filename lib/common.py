@@ -22,14 +22,15 @@ elif platform.system() == 'Linux':
 
 #file and folder name of relative path
 Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
+Threshold_File_Relpath = os.path.join('Miscellaneous', 'Vth.txt')
 TrapDistr_Folder = 'Trap'
 Potential_Folder = 'Potential'
 User_Param_File = r'user.param'
 Vfb_File = 'VfbShift.txt'
 
 # related to matplotlib
-Colors = ['black', 'blue', 'fuchsia', 'gray', 'green', 'purple', 'maroon', 'red',
-          'navy', 'olive', 'orange', 'lime', 'silver', 'aqua', 'teal']
+Colors = ['black', 'blue', 'fuchsia', 'orange', 'green', 'purple', 'grey', 'maroon',
+          'red', 'navy', 'olive', 'lime', 'silver', 'aqua', 'teal']
 Linestyles = ['-', '--']
 Markers = ['o', 's', 'v', 'd', 'h']
 
@@ -95,9 +96,10 @@ def fileCount(nameString):
 
 def getCoordsInXY(file, mode='x'):
     """
-    get the coordinates in x direction, new
-    @param file: name of the data file
-    @return: (string) coordinate list in x direction
+    return all the x/y coordinates
+    @param file:
+    @param mode: x/y, get the coordinates with different x/y;
+    @return:
     """
     f = open(file)
     info = f.readline()
@@ -110,7 +112,7 @@ def getCoordsInXY(file, mode='x'):
         if mode=='x':
             coord = var_list[0]
             if coord in coord_list:
-                break
+                continue
             else:
                 coord_list.append(coord)
         elif mode=='y':
@@ -125,9 +127,10 @@ def getCoordsInXY(file, mode='x'):
 
 def getPlottedValueList(file, coord, mode='x'):
     """
-    get the value list to be plotted, new
-    @param file: data file name
-    @param coord: (string) the coordinate in x direction
+    get the value list to be plotted with given coord
+    @param file:
+    @param coord:
+    @param mode: x/y, the given coordinate is x/y coordinate
     @return:
     """
     f = open(file)
@@ -262,29 +265,19 @@ def readVfb(directory, isFile=False):
 
 
 ########## specificly used in plotting 1D figures ##########
-def getDataAlongY_1D(filename, col_index):
+def getDataAlongY_1D(filename):
     """
     get data along y direction for the first slice
     @param filename: the file path containing the data
     @param col_index: the column index of the required data in the file
     @return: y coordinates list, required data list
     """
-    xCoords = getCoordsInXY(filename)
-    data = getPlottedValueList(filename, xCoords[0])
-    y = data[1]  # data[0] is the xCoords
-    val = data[col_index]
-    return y, val
+    values = cutAlongXY(filename, 0, 'y')
+    return values[1:]
 
 
 ########## specificly used in plotting 2D figures ##########
-def cutAlongXY(filename, coord_in_nm, along='x'):
-    # the along value is different from align value
-    if along == 'x':
-        align = 'y'
-        data_index = 0
-    elif along == 'y':
-        align = 'x'
-        data_index = 1
+def cutAlongXY(filename, coord_in_nm, align='x'):
     coords_list = getCoordsInXY(filename, align)
     coord_in_cm = coord_in_nm * 1e-7
     coord_diff = [math.fabs(coord_in_cm - float(coord)) for coord in coords_list]
@@ -321,7 +314,7 @@ def readData2D(file, skip=1):
 
 
 def makeValueGridZ(x, y, values):
-    xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
+    xi, yi = np.linspace(min(x), max(x), 200), np.linspace(min(y), max(y), 200)
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
     return grid_z
@@ -329,7 +322,7 @@ def makeValueGridZ(x, y, values):
 
 def makeValueGridzWithMask(x, y, values, prj_path):
     from .parameter import getParamValue
-    xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
+    xi, yi = np.linspace(min(x), max(x), 200), np.linspace(min(y), max(y), 200)
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
 
@@ -356,7 +349,7 @@ def makeValueGridzWithMask(x, y, values, prj_path):
 
 def makeValueGridzWithGateStackMask(x, y, values, prj_path):
     from .parameter import getParamValue
-    xi, yi = np.linspace(min(x), max(x), 100), np.linspace(min(y), max(y), 100)
+    xi, yi = np.linspace(min(x), max(x), 200), np.linspace(min(y), max(y), 200)
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
 
@@ -367,7 +360,7 @@ def makeValueGridzWithGateStackMask(x, y, values, prj_path):
 
     mask_y = np.array(grid_y > main_thick)
     grid_z_masked = np.ma.array(grid_z, mask=mask_y)
-    return grid_z_masked
+    return grid_x, grid_y, grid_z_masked
 
 
 if __name__ == '__main__':

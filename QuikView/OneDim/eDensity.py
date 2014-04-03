@@ -16,7 +16,7 @@ def plotCut():
     for index, time in enumerate(Time_list):
         band_dir = os.path.join(Debug_path, 'Density')
         file = cm.searchFilePathByTime(band_dir, 'eDens', time)
-        x, y, edens = cm.cutAlongXY(file, coord_in_nm=5, along='y')
+        x, y, edens = cm.cutAlongXY(file, coord_in_nm=5, align='y')
         ax.plot(y, edens, c=cm.getColor(index), lw=3, label='%2.0es' % time)
         # x, y, edens = cm.cutAlongXY(file, coord_in_nm=4, along='x')
         # ax.plot(x, edens, c=cm.getColor(index), lw=3, label='%2.0es' % time)

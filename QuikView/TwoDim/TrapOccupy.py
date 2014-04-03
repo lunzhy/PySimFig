@@ -19,13 +19,23 @@ Trap_file_pattern = 'trapOccupation'
 # Time_list = [1e2, 1e3, 1e4, 5e4, 1e5, 5e5, 1e6]
 Time_list = [1e-1, 1, 10, 1e2, 1e3, 1e4, 1e5, 5e5, 1e6]
 
-def plotSingleTime(ax, prj_path, time):
+def plotOccSingleTime(ax, prj_path, time):
     trapDistr_directory = os.path.join(prj_path, comm.TrapDistr_Folder)
     file_path = comm.searchFilePathByTime(trapDistr_directory, Trap_file_pattern, time)
     x, y, etrap, trapOcc = comm.readData2D(file_path, 1)
     grid_z = comm.makeValueGridZ(x, y, trapOcc)
     im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=1e-4, vmax=1, origin='lower',
-                    extent=[min(x), max(x), min(y), max(y)], aspect='auto', norm=LogNorm())
+                   extent=[min(x), max(x), min(y), max(y)], aspect='auto', norm=LogNorm())
+    return im
+
+
+def plotDensitySingleTime(ax, prj_path, time):
+    trapDistr_directory = os.path.join(prj_path, comm.TrapDistr_Folder)
+    file_path = comm.searchFilePathByTime(trapDistr_directory, Trap_file_pattern, time)
+    x, y, etrap, trapOcc = comm.readData2D(file_path, 1)
+    grid_z = comm.makeValueGridZ(x, y, etrap)
+    im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=1e16, vmax=1e20, origin='lower',
+                   extent=[min(x), max(x), min(y), max(y)], aspect='auto', norm=LogNorm())
     return im
 
 
@@ -34,7 +44,7 @@ def plotTimesInOneFig(time_list):
     for index, time in enumerate(time_list):
         ax = fig.add_subplot(3, 3, index + 1)
         time_file = comm.searchFilePathByTime(TrapDistr_directory, Trap_file_pattern, time)
-        im = plotSingleTime(ax, time_file)
+        im = plotOccSingleTime(ax, time_file)
     fig.subplots_adjust(right=0.8)
     ax_cb = fig.add_axes([0.85, 0.15, 0.05, 0.7])
     cb = plt.colorbar(im, cax=ax_cb)
@@ -45,7 +55,7 @@ def plotTimesInFigs(prj_path, time_list):
     for index, time in enumerate(time_list):
         fig = plt.figure()
         ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-        im = plotSingleTime(ax, prj_path, time)
+        im = plotOccSingleTime(ax, prj_path, time)
         title = 'time = %2.0es' % time
         ax.set_title(title)
         plt.colorbar(im)
@@ -55,7 +65,7 @@ def plotTimesInFigs(prj_path, time_list):
 
 def main():
     # hit_file = common.searchFileNameByTime(TrapDistr_directory, Trap_file_pattern, 1)
-    # plotSingleTime(hit_file)
+    # plotOccSingleTime(hit_file)
     # plotTimesInOneFig(Time_list)
     plotTimesInFigs(comm.Debug_Folder_Path, Time_list)
     plt.show()

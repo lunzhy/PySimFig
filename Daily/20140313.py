@@ -25,7 +25,7 @@ def plotCutAlongX():
         trap_dir = os.path.join(Debug_path, 'Trap')
         file = cm.searchFilePathByTime(trap_dir, 'Occ', time)
         # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10.5, col_index=3, along='x')
-        x, y, dens, occ = cm.cutAlongXY(file, coord_in_nm=60, along='y')
+        x, y, dens, occ = cm.cutAlongXY(file, coord_in_nm=60, align='y')
         ax.plot(y, occ, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
     ax.set_ylabel('Trap Occupation Rate')

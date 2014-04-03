@@ -15,10 +15,10 @@ Time_list = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 
 def plotSingleTime(ax, prj_path, time):
     pot_dir = os.path.join(prj_path, cm.Potential_Folder)
-    file_path = cm.searchFilePathByTime(Potential_directory, 'potential', time)
+    file_path = cm.searchFilePathByTime(pot_dir, 'potential', time)
     x, y, potential = cm.readData2D(file_path, 1)
-    grid_z = cm.makeValueGridzWithMask(x, y, potential, cm.Debug_Folder_Path)
-    im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=-3, vmax=17, origin='lower',
+    grid_z = cm.makeValueGridzWithMask(x, y, potential, prj_path)
+    im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=-3, vmax=19, origin='lower',
                    extent=[min(x), max(x), min(y), max(y)], aspect='auto')
     return im
 
@@ -37,7 +37,7 @@ def plotTimesInFigs(prj_path, time_list):
 def main():
     # fig = plt.figure()
     # ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    # im = plotSingleTime(ax, Target_folder, 1e-1)
+    # im = plotOccSingleTime(ax, Target_folder, 1e-1)
     # plt.colorbar(im)
     plotTimesInFigs(cm.Debug_Folder_Path, Time_list)
     plt.show()

@@ -17,6 +17,13 @@ Sub_prj = 'diff_thick'
 Prj_names = ['trap4', 'trap6', 'trap8']
 # Prj_names = [comm.Debug_Folder_Path]
 
+def getInitialCharge(file_path):
+    f = open(file_path)
+    f.readline()
+    line = f.readline()
+    total = line.split()[1]
+    return float(total)
+
 
 def main():
     fig = plt.figure()
@@ -25,11 +32,14 @@ def main():
         prj_path = os.path.join(Main_path, Main_prj, Sub_prj, prj)
         file_path = os.path.join(prj_path, 'Miscellaneous', 'chargeRegionwise.txt')
         data = np.loadtxt(file_path, skiprows=1)
-        time, main_cell, other_region = data[:, 0], data[:, 2], data[:, 3]
+        time, total_dens, main_cell, other_region = data[:, 0], data[:, 1], data[:, 2], data[:, 3]
         # ax.plot(time, main_cell, c=comm.getColor(0))
         ax.plot(time, other_region, c=comm.getColor(index))
+        init_dens = getInitialCharge(file_path)
+        ax.plot(time, total_dens/init_dens, ls=comm.getLinestyle(2), c=comm.getColor(index))
 
     ax.set_xscale('log')
+    ax.set_xlim(1e2, 1e6)
     legend = ax.legend(Prj_names)
     return
 

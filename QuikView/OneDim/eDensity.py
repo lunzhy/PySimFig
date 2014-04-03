@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 Debug_path = cm.Debug_Folder_Path
-Time_list = [100]
+Time_list = [1e3, 1e4, 1e5, 1e6]
 
 def plotCut():
     fig = plt.figure()
@@ -18,7 +18,7 @@ def plotCut():
         file = cm.searchFilePathByTime(band_dir, 'eDens', time)
         x, y, edens = cm.cutAlongXY(file, coord_in_nm=5, align='y')
         ax.plot(y, edens, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-        # x, y, edens = cm.cutAlongXY(file, coord_in_nm=4, along='x')
+        # x, y, edens = cm.cutAlongXY(file, coord_in_nm=50, align='x')
         # ax.plot(x, edens, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
     ax.set_ylabel('Electron density')

@@ -34,18 +34,38 @@ def readVthShift(prj_path):
     return time, vth_shift
 
 
+def readVfbAvgShift(prj_path):
+    vth_path = os.path.join(Main_path, Main_prj, prj_path, comm.FlatbandAverage_File_Relpath)
+    data = np.loadtxt(vth_path)
+    time, vth = data[:, 0], data[:, 1]
+    sorted_tup_list = sorted(zip(time, vth), key=itemgetter(0))
+    time, vth = zip(*sorted_tup_list)
+    initial_vth = vth[0]
+    vth_shift = [voltage - initial_vth for voltage in vth]
+    return time, vth_shift
+
+
 def plotVoltageShift():
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 
-    time, vth = readVthShift(Prj_4nm_300K)
-    ax.plot(time, vth, lw=4, c='k', marker='o', ms=16, fillstyle='none', mew=3, markerfacecolor='w')
-    time, vth = readVthShift(Prj_4nm_350K)
-    ax.plot(time, vth, lw=4, c='k', marker='o', ms=16, fillstyle='full', mew=3)
-    time, vth = readVthShift(Prj_6nm_300K)
-    ax.plot(time, vth, lw=4, c='b', marker='s', ms=16, fillstyle='none', mew=3, markerfacecolor='w')
-    time, vth = readVthShift(Prj_6nm_350K)
-    ax.plot(time, vth, lw=4, c='b', marker='s', ms=16, fillstyle='full', mew=3, mec='b')
+    # time, vth = readVthShift(Prj_4nm_300K)
+    # ax.plot(time, vth, lw=4, c='k', marker='o', ms=16, fillstyle='none', mew=3, markerfacecolor='w')
+    # time, vth = readVthShift(Prj_4nm_350K)
+    # ax.plot(time, vth, lw=4, c='k', marker='o', ms=16, fillstyle='full', mew=3)
+    # time, vth = readVthShift(Prj_6nm_300K)
+    # ax.plot(time, vth, lw=4, c='b', marker='s', ms=16, fillstyle='none', mew=3, markerfacecolor='w')
+    # time, vth = readVthShift(Prj_6nm_350K)
+    # ax.plot(time, vth, lw=4, c='b', marker='s', ms=16, fillstyle='full', mew=3, mec='b')
+
+    time, vth = readVfbAvgShift(Prj_4nm_300K)
+    ax.plot(time, vth, lw=4, c='k', marker='o', ms=16, fillstyle='none', mew=3, markerfacecolor='w', markevery=10)
+    time, vth = readVfbAvgShift(Prj_4nm_350K)
+    ax.plot(time, vth, lw=4, c='k', marker='o', ms=16, fillstyle='full', mew=3, markevery=10)
+    time, vth = readVfbAvgShift(Prj_6nm_300K)
+    ax.plot(time, vth, lw=4, c='b', marker='s', ms=16, fillstyle='none', mew=3, markerfacecolor='w', markevery=10)
+    time, vth = readVfbAvgShift(Prj_6nm_350K)
+    ax.plot(time, vth, lw=4, c='b', marker='s', ms=16, fillstyle='full', mew=3, mec='b', markevery=10)
 
     labels = ['4/8/12nm T=300K', '4/8/12nm T=350K', '6/8/12nm T=300K', '6/8/12nm T=350K']
     legend = ax.legend(labels, loc='lower left', handlelength=3, numpoints=1)

@@ -23,7 +23,7 @@ Main_prj = 'retention'
 Time_list = [1, 1e2, 1e3, 1e4, 1e5, 5e5, 5e6]
 Time_list_few = [1e2, 1e3, 1e4, 1e5, 5e6]
 Prj_name = r'thick_350K_1.6eV_PF2e11'  # thick_1.6eV_PF1e10
-Time_to_plot = 1e5
+Time_to_plot = 1e6
 Cutline = [50, 40, 30]
 
 def to_simple(x, position):
@@ -100,7 +100,7 @@ def plotVerticalCut():
     # legend = ax_free.legend(legend_text, loc='upper left', handlelength=3, ncol=3)
     fmt.setAxesLabel(ax_free, 22, 20)
     fmt.setAxesTicks(ax_free)
-    ax_free.set_xlabel('Position along Vertical Direction (nm)')
+    ax_free.set_xlabel('Vertical Direction (nm)')
     ax_free.set_ylabel('CB Electrons ($\mathbf{cm^{-3}}$)')
     ax_free.set_ylim(1, 5e7)
     ax_free.set_yscale('log')
@@ -288,7 +288,7 @@ def plotBandCuts():
     ax.set_xlim(0, y_extent-0.1)
     ax.set_ylim(-7, 9)
     ax.set_yticks(np.arange(-7, 9, 3))
-    ax.set_xlabel('Position along Vertical Direction (nm)', labelpad=0)
+    ax.set_xlabel('Vertical Direction (nm)', labelpad=0)
     ax.set_ylabel('Band Energy (eV)', labelpad=0)
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
@@ -352,7 +352,7 @@ def plotCutlines():
     ax_band.set_xlim(0, y_extent - 0.1)
     ax_band.set_ylim(-7, 9)
     ax_band.set_yticks(np.arange(-7, 9, 3))
-    ax_band.set_xlabel('Position (nm)', labelpad=0)
+    ax_band.set_xlabel('Vertical Direction (nm)', labelpad=0)
     ax_band.set_ylabel('Band Energy (eV)', labelpad=0)
     fmt.setAxesLabel(ax_band, 22, 20)
     fmt.setAxesTicks(ax_band)
@@ -392,7 +392,7 @@ def plotCutlines():
     # ax_free
     ax_free.set_ylim(1e1, 1e5)
     ax_free.set_yscale('log')
-    ax_free.set_xlabel('Position (nm)', labelpad=0)
+    ax_free.set_xlabel('Vertical Direction (nm)', labelpad=0)
     ax_free.set_ylabel('CB Electrons ($\mathbf{cm^{-3}}$)')
     ax_free.yaxis.tick_right()
     ax_free.yaxis.set_label_position('right')
@@ -410,12 +410,12 @@ def main():
     # trappedDensity(50, 'y')
     # freeDensity(50)
     # plot3DTrappedDensity()
-    # plotVerticalCut()
+    plotVerticalCut()
     # plotTrappedDensity2D()
     # plotBandCuts()
-    # plotCutlines()
+    plotCutlines()
     # plotFreeDensity2D()
-    plot2D()
+    # plot2D()
     # plotTwoCutlines()
     # plt.tight_layout()
     plt.show()

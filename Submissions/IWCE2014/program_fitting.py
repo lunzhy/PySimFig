@@ -5,10 +5,10 @@ import sys
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-Path = os.path.abspath(os.path.join('..', 'lib'))
-if not Path in sys.path:
-    sys.path.append(Path)
-# from lib.ft import *
+path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, os.pardir))
+if not path in sys.path:
+    sys.path.append(path)
+import lib.fitting as ft
 
 ############# process the data from experiment ############
 # Padovani, EDL09', Sample C, 4/8.7/11.5
@@ -42,16 +42,16 @@ Fitting_base_dir = r'E:\PhD Study\SimCTM\SctmTest\Fitting\Padovani_C'
 Main_project_name = [r'Paper']  # Demo, Paper
 Prj_list = ['12V', '14V', '16V', '18V']
 
-fig = figure()
+fig = plt.figure()
 ax = fig.add_axes([0.13, 0.17, 0.75, 0.75])
 
 for prj_index, prj in enumerate(Prj_list):
-    plotExpVfb(ax, prj_index, getTimeList(Exp_list[prj_index]), getFlatbandList(Exp_list[prj_index], True), prj)
+    ft.plotExpVfb(ax, prj_index, ft.getTimeList(Exp_list[prj_index]), ft.getFlatbandList(Exp_list[prj_index], True), prj)
     for main_index, main_prj in enumerate(Main_project_name):
         prj_path = os.path.join(Fitting_base_dir, main_prj, prj)
-        sim_time, sim_flatband = readVfb(prj_path)
+        sim_time, sim_flatband = ft.readVfb(prj_path)
         if len(sim_time) == 0: pass
-        plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
+        ft.plotFittingVfb(ax, (main_index, prj_index), sim_time, sim_flatband, prj)
 
 handles, labels = ax.get_legend_handles_labels()
 hl = sorted(zip(handles, labels), key=lambda x: x[1])
@@ -59,8 +59,8 @@ handles_new, labels_new = zip(*hl)
 
 #TODO: label order has to be enhanced
 legend = ax.legend(handles_new, labels_new, loc='upper left', ncol=2, columnspacing=1)
-ax.set_xlabel('Programming Time ($s$)')
-ax.set_ylabel('Flatband Voltage Shift ($V$)')
+ax.set_xlabel('Programming Time (s)')
+ax.set_ylabel('Flatband Voltage Shift (V)')
 
 ax.set_xscale('log')
 ax.set_xlim(1e-8, 2)
@@ -97,8 +97,7 @@ ax.yaxis.set_tick_params(which='minor', width=2, size=3)
 for tick in ax.get_xaxis().get_major_ticks():
     tick.set_pad(8.)
 
-# fig_name = os.path.join(Save_Fig_Folder, "P_Fitting")
+from Submissions.IWCE2014 import Save_Fig_Folder
+fig_name = os.path.join(Save_Fig_Folder, "P_Fitting_new")
 # plt.savefig(fig_name, dpi = 1020, bbox_inches='tight', pad_inches=0.1)
 plt.show()
-
-sys.path.remove(Path)

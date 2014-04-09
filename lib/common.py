@@ -21,8 +21,10 @@ elif platform.system() == 'Linux':
     Default_Parfile_Path = r'/home/lunzhy/SimCTM/default.param'
 
 #file and folder name of relative path
+Sctm_Test_Folder = r'E:\PhD Study\SimCTM\SctmTest'
 Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
 Threshold_File_Relpath = os.path.join('Miscellaneous', 'Vth.txt')
+FlatbandAverage_File_Relpath = os.path.join('Miscellaneous', 'Vth_flatband.txt')
 TrapDistr_Folder = 'Trap'
 Potential_Folder = 'Potential'
 User_Param_File = r'user.param'

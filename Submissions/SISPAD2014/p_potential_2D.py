@@ -40,7 +40,7 @@ def main():
 
     ax.set_xlabel('X (nm)')
     ax.set_ylabel('Y (nm)')
-    ax.set_yticks([2, 12, 22])
+    ax.set_yticks([0, 10, 20])
     for axis in ['top', 'bottom', 'left', 'right']:
         ax.spines[axis].set_linewidth(0)
 
@@ -63,7 +63,7 @@ def main():
         tick.set_pad(8.)
 
     drawFig(fig, 'p_potential')
-    # plt.show()
+    plt.show()
     return
 
 

@@ -8,7 +8,7 @@ elif platform.system() == 'Windows':
     Directory_Sispad2014 = r'E:\PhD Study\Submissions\SISPAD2014\SctmData'
     Folder_Save_Figure = r'py_figures'
 
-IsSaveFigure = True
+IsSaveFigure = False
 
 def drawFig(fig, name):
     if IsSaveFigure:

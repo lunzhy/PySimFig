@@ -35,7 +35,7 @@ def readVthShift(prj_path):
 
 
 def readVfbAvgShift(prj_path):
-    vth_path = os.path.join(Main_path, Main_prj, prj_path, comm.FlatbandAverage_File_Relpath)
+    vth_path = os.path.join(Main_path, Main_prj, prj_path, comm.AvgFlatband_File)
     data = np.loadtxt(vth_path)
     time, vth = data[:, 0], data[:, 1]
     sorted_tup_list = sorted(zip(time, vth), key=itemgetter(0))

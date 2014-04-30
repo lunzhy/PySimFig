@@ -24,9 +24,10 @@ elif platform.system() == 'Linux':
 Sctm_Test_Folder = r'E:\PhD Study\SimCTM\SctmTest'
 Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
 Threshold_File_Relpath = os.path.join('Miscellaneous', 'Vth.txt')
-FlatbandAverage_File_Relpath = os.path.join('Miscellaneous', 'Vth_flatband.txt')
+AvgFlatband_File = os.path.join('Miscellaneous', 'Vth_flatband.txt')
 TrapDistr_Folder = 'Trap'
 Potential_Folder = 'Potential'
+Density_Folder = 'Density'
 User_Param_File = r'user.param'
 Vfb_File = 'VfbShift.txt'
 
@@ -266,6 +267,16 @@ def readVfb(directory, isFile=False):
     return times, vfbs
 
 
+def readVfbOfCells(prjPath, isFile=False):
+    if not isFile:
+        file = os.path.join(prjPath, AvgFlatband_File)
+    else:
+        file = prjPath
+    data = np.loadtxt(file, skiprows=1)
+    times, vfb_cell1, vfb_cell2, vfb_cell3 = data[:, 0], data[:, 2], data[:, 2], data[:, 3]
+    return times, vfb_cell1, vfb_cell2, vfb_cell3
+
+
 ########## specificly used in plotting 1D figures ##########
 def getDataAlongY_1D(filename):
     """
@@ -328,22 +339,26 @@ def makeValueGridzWithMask(x, y, values, prj_path):
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
 
+    structure = getParamValue('structure', prj_path)
     tunnel_thick = float(getParamValue('tc.tunnel.thick', prj_path))
     trap_thick = float(getParamValue('tc.trap.thick', prj_path))
     block_thick = float(getParamValue('tc.block.thick', prj_path))
+    iso1_width = float(getParamValue('tc.iso1.width', prj_path)) if structure == 'TripleFull' else 0
     gate1_width = float(getParamValue('tc.gate1.width', prj_path))
     iso2_width = float(getParamValue('tc.iso2.width', prj_path))
     gate2_width = float(getParamValue('tc.gate2.width', prj_path))
     iso3_width = float(getParamValue('tc.iso3.width', prj_path))
     gate3_width = float(getParamValue('tc.gate3.width', prj_path))
+    iso4_width = float(getParamValue('tc.iso4.width', prj_path)) if structure == 'TripleFull' else 0
     main_thick = tunnel_thick + trap_thick + block_thick
 
     mask_y = np.array(grid_y > main_thick)
-    mask_x_gate1 = np.array( grid_x < gate1_width)
-    mask_x_gate2 = np.logical_and(grid_x > gate1_width + iso2_width,
-                                grid_x < gate1_width + iso2_width + gate2_width)
-    mask_x_gate3 = np.logical_and(grid_x> gate1_width + iso2_width + gate2_width + iso3_width,
-                                  grid_x <= gate1_width + iso2_width + gate2_width + iso3_width + gate3_width)
+    mask_x_gate1 = np.logical_and(grid_x > iso1_width, grid_x < iso1_width + gate1_width)
+    mask_x_gate2 = np.logical_and(grid_x > iso1_width + gate1_width + iso2_width,
+                                  grid_x < iso1_width + gate1_width + iso2_width + gate2_width)
+    mask_x_gate3 = np.logical_and(grid_x > iso1_width + gate1_width + iso2_width + gate2_width + iso3_width,
+                                  grid_x < iso1_width + gate1_width + iso2_width + gate2_width + iso3_width
+                                  + gate3_width)
     mask_z = mask_y & (mask_x_gate1 | mask_x_gate2 | mask_x_gate3)
     grid_z_masked = np.ma.array(grid_z, mask=mask_z)
     return grid_z_masked

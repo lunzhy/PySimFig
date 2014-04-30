@@ -10,11 +10,8 @@ from matplotlib.colors import LogNorm
 
 
 Target_directory = comm.Debug_Folder_Path
-# Target_directory = r'/home/lunzhy/SimCTM/projects/SISPAD2014/retention/4nm_350K_1.6eV_PF2e11_T2B5e5'
-# Target_directory = '/home/lunzhy/SimCTM/projects/SISPAD2014/retention/diff_thick/trap6'
-Target_directory = '/home/lunzhy/SimCTM/projects/SSDM2014/standard_program/5e5_2e11_1.6'
-TrapDistr_directory = os.path.join(Target_directory, comm.TrapDistr_Folder)
-Trap_file_pattern = 'trapOccupation'
+Density_directory = os.path.join(Target_directory, comm.Density_Folder)
+Dens_file_pattern = 'eDens'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [1e-2, 1e-1]
@@ -22,22 +19,21 @@ Trap_file_pattern = 'trapOccupation'
 # Time_list = [1e-1, 1e2, 1e4, 1e5, 5e5, 1e6, 1e7]
 # Time_list = [1e5, 5e5, 1e6, 1e7]
 Time_list = [1.2e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
-# Time_list = [i * 1e-4 for i in [1, 2, 3, 5, 6, 7, 8, 9, 10]]
 
 
 def plotOccSingleTime(ax, prj_path, time):
-    trapDistr_directory = os.path.join(prj_path, comm.TrapDistr_Folder)
-    file_path = comm.searchFilePathByTime(trapDistr_directory, Trap_file_pattern, time)
-    x, y, etrap, trapOcc = comm.readData2D(file_path, 1)
-    grid_z = comm.makeValueGridZ(x, y, trapOcc)
-    im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=1e-4, vmax=1, origin='lower',
+    densDistr_directory = os.path.join(prj_path, comm.Density_Folder)
+    file_path = comm.searchFilePathByTime(densDistr_directory, Dens_file_pattern, time)
+    x, y, edens = comm.readData2D(file_path, 1)
+    grid_z = comm.makeValueGridZ(x, y, edens)
+    im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=1, vmax=1e7, origin='lower',
                    extent=[min(x), max(x), min(y), max(y)], aspect='auto', norm=LogNorm())
     return im
 
 
 def plotDensitySingleTime(ax, prj_path, time):
-    trapDistr_directory = os.path.join(prj_path, comm.TrapDistr_Folder)
-    file_path = comm.searchFilePathByTime(trapDistr_directory, Trap_file_pattern, time)
+    densDistr_directory = os.path.join(prj_path, comm.Density_Folder)
+    file_path = comm.searchFilePathByTime(densDistr_directory, Dens_file_pattern, time)
     x, y, etrap, trapOcc = comm.readData2D(file_path, 1)
     grid_z = comm.makeValueGridZ(x, y, etrap)
     im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=1e16, vmax=1e20, origin='lower',
@@ -49,7 +45,7 @@ def plotTimesInOneFig(time_list):
     fig = plt.figure()
     for index, time in enumerate(time_list):
         ax = fig.add_subplot(3, 3, index + 1)
-        time_file = comm.searchFilePathByTime(TrapDistr_directory, Trap_file_pattern, time)
+        time_file = comm.searchFilePathByTime(Density_directory, Dens_file_pattern, time)
         im = plotOccSingleTime(ax, time_file)
     fig.subplots_adjust(right=0.8)
     ax_cb = fig.add_axes([0.85, 0.15, 0.05, 0.7])
@@ -64,7 +60,6 @@ def plotTimesInFigs(prj_path, time_list):
         im = plotOccSingleTime(ax, prj_path, time)
         title = 'time = %2.0es' % time
         ax.set_title(title)
-        ax.set_xticks([0, 15, 45, 75, 105, 135, 165, 180])
         plt.colorbar(im)
         #fig_name = os.path.join(r'C:\Users\Lunzhy\Desktop\pic', str(time))
         #fig.savefig(fig_name, dpi=600, bbox_inches='tight', pad_inches=0.1)

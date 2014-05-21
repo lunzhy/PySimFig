@@ -8,10 +8,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 Target_folder = os.path.join(cm.Debug_Folder_Path, cm.Potential_Folder)
-Potential_directory = os.path.join(cm.Debug_Folder_Path, cm.Potential_Folder)
+Target_directory = '/home/lunzhy/SimCTM/projects/SSDM2014/p_side/Lg30_pSide'
+Potential_directory = os.path.join(Target_directory, cm.Potential_Folder)
 # Time_list = [1e-1, 1, 10, 1e2, 1e3, 1e4, 1e5, 5e5, 1e6]
 # Time_list = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
-Time_list = [1e-8, 1e-7, 1e-6]
+# Time_list = [1e-8, 1e-7, 1e-6]
+Time_list = [0.00020001]
 
 
 def plotSingleTime(ax, prj_path, time):
@@ -40,7 +42,7 @@ def main():
     # ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
     # im = plotOccSingleTime(ax, Target_folder, 1e-1)
     # plt.colorbar(im)
-    plotTimesInFigs(cm.Debug_Folder_Path, Time_list)
+    plotTimesInFigs(Target_directory, Time_list)
     plt.show()
 
 if __name__ == '__main__': main()

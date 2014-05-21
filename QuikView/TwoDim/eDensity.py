@@ -10,6 +10,7 @@ from matplotlib.colors import LogNorm
 
 
 Target_directory = comm.Debug_Folder_Path
+Target_directory = '/home/lunzhy/SimCTM/projects/SSDM2014/p_side/Lg30_pSide'
 Density_directory = os.path.join(Target_directory, comm.Density_Folder)
 Dens_file_pattern = 'eDens'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
@@ -18,7 +19,8 @@ Dens_file_pattern = 'eDens'
 # Time_list = [1e2, 1e3, 1e4, 5e4, 1e5, 5e5, 1e6]
 # Time_list = [1e-1, 1e2, 1e4, 1e5, 5e5, 1e6, 1e7]
 # Time_list = [1e5, 5e5, 1e6, 1e7]
-Time_list = [1.2e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
+# Time_list = [1.2e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
+Time_list = [1e-8, 0.0002, 0.00020001, 0.0003, 0.0004]
 
 
 def plotOccSingleTime(ax, prj_path, time):

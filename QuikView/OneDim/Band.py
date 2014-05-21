@@ -8,20 +8,24 @@ import matplotlib.pyplot as plt
 
 
 Debug_path = cm.Debug_Folder_Path
-Time_list = [1e5]
+Target_project = Debug_path
+Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/p_side/Lg30_pSide'
+Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/read_disturb/Ls20_pSide_zero'
+Target_project = '/home/lunzhy/SimCTM/projects/CPB2014/ret_lowK/SiN/0.4'
+Time_list = [1, 10, 1e2, 1e3, 1e4]
 
 def plotCut():
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
     for index, time in enumerate(Time_list):
-        band_dir = os.path.join(Debug_path, 'Band')
+        band_dir = os.path.join(Target_project, 'Band')
         file = cm.searchFilePathByTime(band_dir, 'band', time)
         # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10.5, col_index=3, along='x')
-        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=8, align='y')
-        ax.plot(x, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-        ax.plot(x, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=95, align='x')
+        ax.plot(y, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+        ax.plot(y, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
-    ax.set_ylabel('Trap Occupation Rate')
+    ax.set_ylabel('Band Energy (eV)')
     # ax.set_ylim(0, 1)
     # legend = ax.legend(loc='lower left')
     return

@@ -45,7 +45,6 @@ def getTimeList(exp_data):
     """
     get the time list from experiment data
     @param exp_data:
-    @param isShift: check if the experiment data is voltage shift
     @return:
     """
     exp_data = sorted(exp_data, key=lambda x: x[1])

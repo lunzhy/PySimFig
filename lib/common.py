@@ -26,6 +26,7 @@ Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
 Threshold_File_Relpath = os.path.join('Miscellaneous', 'Vth.txt')
 AvgFlatband_File = os.path.join('Miscellaneous', 'Vth_flatband.txt')
 TrapDistr_Folder = 'Trap'
+TrapFile_Pattern = 'trap'
 Potential_Folder = 'Potential'
 Density_Folder = 'Density'
 User_Param_File = r'user.param'
@@ -86,12 +87,12 @@ def getColor_time(time):
     return getColor(arg)
 
 
-def fileCount(nameString):
+def fileCount(nameString, directory):
     """
     count the file with specified name string
     """
     num = 0
-    for file in os.listdir(Directory):
+    for file in os.listdir(directory):
         if nameString in file:
             num += 1
     return num

@@ -16,18 +16,25 @@ Time_list = [1e-6, 0.0002, 0.00020001, 0.0003, 0.0004]
 Time_list = [1, 10, 1e2, 1e3, 1e4, 1e5, 1e6]
 
 
-def plotCut():
-    fig = plt.figure()
-    ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    for index, time in enumerate(Time_list):
-        band_dir = os.path.join(Debug_path, 'Trap')
+def plotCut(ax=None, prj=Debug_path, time_list=Time_list, coord=0, align='y'):
+    if ax == None:
+        fig = plt.figure()
+        ax = fig.add_axes([0.15, 0.15, 0.75, 0.75])
+    for index, time in enumerate(time_list):
+        band_dir = os.path.join(prj, 'Trap')
+        time = float(time)
         file = cm.searchFilePathByTime(band_dir, 'trap', time)
-        x, y, etrapped, occ = cm.cutAlongXY(file, coord_in_nm=0, align='y')
-        ax.plot(x, etrapped, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-        # x, y, etrapped, occ = cm.cutAlongXY(file, coord_in_nm=20, align='x')
-        # ax.plot(y, etrapped, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-    ax.set_xlabel('Y coordinate (nm)')
-    ax.set_ylabel('Trap Occupy')
+        if align == 'y':
+            x, y, etrapped, occ = cm.cutAlongXY(file, coord_in_nm=coord, align='y')
+            ax.plot(x, etrapped, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+        elif align == 'x':
+            x, y, etrapped, occ = cm.cutAlongXY(file, coord_in_nm=coord, align='x')
+            ax.plot(y, etrapped, c=cm.getColor(index), lw=3, label='%2.0es' % time)
+    if align == 'y':
+        ax.set_xlabel('X coordinate (nm)')
+    elif align == 'x':
+        ax.set_xlabel('Y coordinate (nm)')
+    ax.set_ylabel('Trapped Electron Density ($\mathbf{cm^{-3}}$)')
     # ax.set_ylim(0, 1)
     # ax.set_yscale('log')
     # legend = ax.legend(loc='lower left')

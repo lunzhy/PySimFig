@@ -27,7 +27,7 @@ def main():
     ax.set_aspect(4)
     #divider = make_axes_locatable(ax)
     #cax = divider.append_axes('right', size='5%', pad=.05)
-    cb = fig.colorbar(im, ax=ax, shrink=0.4, pad=0.05, aspect=10,extend='both')
+    cb = fig.colorbar(im, ax=ax, shrink=0.4, pad=0.05, aspect=10, extend='both')
 
     # ax
     # ax.set_xlabel('X Coordinate (nm)')

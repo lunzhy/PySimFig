@@ -274,7 +274,7 @@ def readVfbOfCells(prjPath, isFile=False):
     else:
         file = prjPath
     data = np.loadtxt(file, skiprows=1)
-    times, vfb_cell1, vfb_cell2, vfb_cell3 = data[:, 0], data[:, 2], data[:, 2], data[:, 3]
+    times, vfb_cell1, vfb_cell2, vfb_cell3 = data[:, 0], data[:, 1], data[:, 2], data[:, 3]
     return times, vfb_cell1, vfb_cell2, vfb_cell3
 
 

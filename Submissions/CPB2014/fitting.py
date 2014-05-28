@@ -29,7 +29,7 @@ def plotFitting():
     exp_time_14V = fitting.getTimeList(Exp_data_14V)
     exp_voltage_14V = fitting.getFlatbandList(Exp_data_14V)
 
-    prj_path = os.path.join(Main_path, Main_prj, '14V')
+    prj_path = os.path.join(Main_path, Main_prj, '15V')
     time, vfb_cell1, vfb_cell2, vfb_cell3 = comm.readVfbOfCells(prj_path)
 
     vfb_cell2 = [vol - 0.6 for vol in vfb_cell2]

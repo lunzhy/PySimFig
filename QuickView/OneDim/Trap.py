@@ -11,9 +11,11 @@ Debug_path = cm.Debug_Folder_Path
 Debug_path = r'/home/lunzhy/SimCTM/projects/SISPAD2014/retention/thick_300K_1.6eV_PF2e11'
 Debug_path = '/home/lunzhy/SimCTM/projects/SSDM2014/p_side/Lg30_pSide'
 Debug_path = '/home/lunzhy/SimCTM/projects/SSDM2014/read_disturb/Ls20_pSide_central'
+Debug_path = '/home/lunzhy/SimCTM/projects/CPB2014/ret_400K_sideToCenter/Ls10_Lg10'
 Time_list = [1e-8, 1e-6, 1e-4, 1e-2, 1e-1, 1]
 Time_list = [1e-6, 0.0002, 0.00020001, 0.0003, 0.0004]
 Time_list = [1, 10, 1e2, 1e3, 1e4, 1e5, 1e6]
+Time_list = [1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 3e8]
 
 
 def plotCut(ax=None, prj=Debug_path, time_list=Time_list, coord=0, align='y'):
@@ -42,5 +44,5 @@ def plotCut(ax=None, prj=Debug_path, time_list=Time_list, coord=0, align='y'):
 
 
 if __name__ == '__main__':
-    plotCut()
+    plotCut(coord=9)
     plt.show()

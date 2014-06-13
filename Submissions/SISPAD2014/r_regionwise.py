@@ -8,7 +8,7 @@ import numpy as np
 import lib.common as comm
 from matplotlib.colors import LogNorm
 from Submissions.SISPAD2014 import *
-from QuikView.TwoDim import TrapOccupy as occ
+from QuickView.TwoDim import TrapOccupy as occ
 
 Main_path = Directory_Sispad2014
 Main_prj = 'retention'

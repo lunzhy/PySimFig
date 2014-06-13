@@ -5,7 +5,7 @@ if not path in sys.path:
     sys.path.append(path)
 import matplotlib.pyplot as plt
 from Submissions.SISPAD2014 import *
-from QuikView.TwoDim import TrapOccupy as occ
+from QuickView.TwoDim import TrapOccupy as occ
 import numpy as np
 import lib.common as comm
 import lib.format as fmt

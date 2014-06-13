@@ -6,7 +6,7 @@ if not path in sys.path:
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from Submissions.SISPAD2014 import *
-from QuikView.TwoDim import TrapOccupy as occ
+from QuickView.TwoDim import TrapOccupy as occ
 from lib.common import Debug_Folder_Path as Debug_path
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import lib.format as ft

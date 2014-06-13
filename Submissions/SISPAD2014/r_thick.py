@@ -6,7 +6,7 @@ if not path in sys.path:
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from Submissions.SISPAD2014 import *
-from QuikView.TwoDim import TrapOccupy as occ
+from QuickView.TwoDim import TrapOccupy as occ
 import lib.common as comm
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np

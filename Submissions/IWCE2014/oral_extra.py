@@ -4,10 +4,10 @@ path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), 
 if not path in sys.path:
     sys.path.append(path)
 import matplotlib.pyplot as plt
-from QuikView.TwoDim import TrapOccupy as occ
+from QuickView.TwoDim import TrapOccupy as occ
 import lib.format as ft
 from matplotlib import font_manager
-from QuikView.OneDim import Trap as trap
+from QuickView.OneDim import Trap as trap
 
 
 Main_path = '/home/lunzhy/SimCTM/projects/IWCE2014'

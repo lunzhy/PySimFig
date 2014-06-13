@@ -6,7 +6,7 @@ if not path in sys.path:
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from Submissions.SISPAD2014 import *
-from QuikView.TwoDim import Potential as Pot
+from QuickView.TwoDim import Potential as Pot
 from lib.common import Debug_Folder_Path as Debug_path
 import lib.format as ft
 from matplotlib import font_manager

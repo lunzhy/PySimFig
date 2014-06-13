@@ -6,7 +6,7 @@ if not path in sys.path:
 from Submissions.CPB2014 import *
 import matplotlib.pyplot as plt
 import lib.common as comm
-from QuikView.TwoDim import TrapOccupy as occ
+from QuickView.TwoDim import TrapOccupy as occ
 import lib.format as fmt
 from matplotlib.ticker import FuncFormatter
 

@@ -22,9 +22,12 @@ elif platform.system() == 'Linux':
 
 #file and folder name of relative path
 Sctm_Test_Folder = r'E:\PhD Study\SimCTM\SctmTest'
+Misc_Folder = 'Miscellaneous'
 Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
 Threshold_File_Relpath = os.path.join('Miscellaneous', 'Vth.txt')
 AvgFlatband_File = os.path.join('Miscellaneous', 'Vth_flatband.txt')
+TunnelOut_File = os.path.join(Misc_Folder, 'tunnelOutDensity.txt')
+ChargeRegion_File = os.path.join(Misc_Folder, 'chargeRegionwise.txt')
 TrapDistr_Folder = 'Trap'
 TrapFile_Pattern = 'trap'
 Potential_Folder = 'Potential'
@@ -276,6 +279,33 @@ def readVfbOfCells(prjPath, isFile=False):
     data = np.loadtxt(file, skiprows=1)
     times, vfb_cell1, vfb_cell2, vfb_cell3 = data[:, 0], data[:, 1], data[:, 2], data[:, 3]
     return times, vfb_cell1, vfb_cell2, vfb_cell3
+
+
+def readTunnelOut(prjPath, isAcc=False):
+    file = os.path.join(prjPath, TunnelOut_File)
+    data = np.loadtxt(file, skiprows=1)
+    time, tun_subs, tb_subs, tun_gate, tb_gate = data[:, 0], data[:, 1], data[:, 2], data[:, 3], data[:, 4]
+    if isAcc is False:
+        return time, tun_subs, tb_subs, tun_gate, tb_gate
+    tun_subs_acc, tb_subs_acc, tun_gate_acc, tb_gate_acc = 0, 0, 0, 0
+    tun_subs_acc_list, tb_subs_acc_list, tun_gate_acc_list, tb_gate_acc_list = [], [], [], []
+    for time_step, tun_subs_step, tb_subs_step, tun_gate_step, tb_gate_step in zip(time, tun_subs, tb_subs, tun_gate, tb_gate):
+        tun_subs_acc += tun_subs_step
+        tb_subs_acc += tb_subs_step
+        tun_gate_acc += tun_gate_step
+        tb_gate_acc += tb_gate_step
+        tun_subs_acc_list.append(tun_subs_acc)
+        tb_subs_acc_list.append(tb_subs_acc)
+        tun_gate_acc_list.append(tun_gate_acc)
+        tb_gate_acc_list.append(tb_gate_acc)
+    return time, tun_subs_acc_list, tb_subs_acc_list, tun_gate_acc_list, tb_gate_acc_list
+
+
+def readChargeRegionwise(prjPath):
+    file = os.path.join(prjPath, ChargeRegion_File)
+    data = np.loadtxt(file, skiprows=1)
+    time, total, main_per, other_per = data[:, 0], data[:, 1], data[:, 2], data[:, 3]
+    return time, total, main_per, other_per
 
 
 ########## specificly used in plotting 1D figures ##########

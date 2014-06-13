@@ -8,10 +8,18 @@ import matplotlib.pyplot as plt
 import lib.common as comm
 import lib.format as fmt
 
+
 Main_path = Directory_CPB2014
 Main_prj = r'program'
 Prj_name = ['u0.01', 'u0.1', 'u1']
 Cut_time = [1e-1]
+
+
+def formatPlots(ax, legend):
+    fmt.setAxesLabel(ax)
+    fmt.setAxesTicks(ax)
+    fmt.setLegend(legend)
+    return
 
 
 def plotVthCompare():
@@ -22,9 +30,14 @@ def plotVthCompare():
         time, vfb_cell1, vfb_cell2, vfb_cell3 = comm.readVfbOfCells(prj_path)
         ax.plot(time, vfb_cell2, color=comm.getColor(index), lw=3)
 
+    labels = [label[1:]+' cm${^2}$/V/s' for label in Prj_name]
+    legend = ax.legend(labels, loc='upper left')
     ax.set_xscale('log')
     ax.set_xlabel('Programming Time (s)')
     ax.set_ylabel('Threshold Voltage Shift (V)')
+
+    ax.set_xticks([1e-8, 1e-6, 1e-4, 1e-2, 1])
+    formatPlots(ax, legend)
     return
 
 
@@ -39,8 +52,11 @@ def plotTrapCutVertical():
             x, y, dens, occ = comm.cutAlongXY(file, 95, align='x')
             ax.plot(y, occ, color=comm.getColor(prj_ind), lw=3)
 
+    labels = [label[1:] + ' cm${^2}$/V/s' for label in Prj_name]
+    legend = ax.legend(labels, loc='lower left')
     ax.set_xlabel('Vertical Direction (nm)')
     ax.set_ylabel('Trap Occupation')
+    formatPlots(ax, legend)
     return
 
 
@@ -54,6 +70,14 @@ def plotTrapCutLateral():
             file = comm.searchFilePathByTime(trap_path, comm.TrapFile_Pattern, time)
             x, y, dens, occ = comm.cutAlongXY(file, 4, align='y')
             ax.plot(x, occ, color=comm.getColor(prj_ind), lw=3)
+
+    labels = [label[1:] + ' cm${^2}$/V/s' for label in Prj_name]
+    legend = ax.legend(labels, loc='upper left')
+    ax.set_xlabel('Lateral Direction (nm)')
+    ax.set_ylabel('Trap Occupation')
+    ax.set_xlim(0, 180)
+    ax.set_xticks([0, 15, 45, 75, 105, 135, 165, 180])
+    formatPlots(ax, legend)
     return
 
 
@@ -62,6 +86,7 @@ def main():
     plotTrapCutVertical()
     plotTrapCutLateral()
     plt.show()
+
 
 if __name__ == '__main__':
     main()

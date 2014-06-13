@@ -8,9 +8,9 @@ def setAxesLabel(ax, label_size=26, tick_size=24):
         ax.spines[axis].set_linewidth(2)
 
     ### axis label
-    ticks_font = font_manager.FontProperties(family='times new roman', style='normal',
+    ticks_font = font_manager.FontProperties(family='Arial', style='normal',
                                              size=tick_size, weight='normal', stretch='normal')
-    labels_font = font_manager.FontProperties(family='times new roman', style='normal',
+    labels_font = font_manager.FontProperties(family='Arial', style='normal',
                                               size=label_size, weight='normal', stretch='normal')
     labels = [ax.xaxis.label, ax.yaxis.label]
     if isinstance(ax, Axes3D):

@@ -40,7 +40,7 @@ def plotTimesInFigs(prj_path, time_list):
 def main():
     # fig = plt.figure()
     # ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    # im = plotOccSingleTime(ax, Target_folder, 1e-1)
+    # im = plotEdensSingleTime(ax, Target_folder, 1e-1)
     # plt.colorbar(im)
     plotTimesInFigs(Target_directory, Time_list)
     plt.show()

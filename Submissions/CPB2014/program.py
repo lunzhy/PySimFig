@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import lib.common as comm
 import lib.format as fmt
 
-
 Main_path = Directory_CPB2014
 Main_prj = r'program'
 Prj_name = ['u0.01', 'u0.1', 'u1']
@@ -30,7 +29,7 @@ def plotVthCompare():
         time, vfb_cell1, vfb_cell2, vfb_cell3 = comm.readVfbOfCells(prj_path)
         ax.plot(time, vfb_cell2, color=comm.getColor(index), lw=3)
 
-    labels = [label[1:]+' cm${^2}$/V/s' for label in Prj_name]
+    labels = [label[1:] + ' cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
     legend = ax.legend(labels, loc='upper left')
     ax.set_xscale('log')
     ax.set_xlabel('Programming Time (s)')
@@ -52,7 +51,7 @@ def plotTrapCutVertical():
             x, y, dens, occ = comm.cutAlongXY(file, 95, align='x')
             ax.plot(y, occ, color=comm.getColor(prj_ind), lw=3)
 
-    labels = [label[1:] + ' cm${^2}$/V/s' for label in Prj_name]
+    labels = [label[1:] + ' cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
     legend = ax.legend(labels, loc='lower left')
     ax.set_xlabel('Vertical Direction (nm)')
     ax.set_ylabel('Trap Occupation')
@@ -71,7 +70,7 @@ def plotTrapCutLateral():
             x, y, dens, occ = comm.cutAlongXY(file, 4, align='y')
             ax.plot(x, occ, color=comm.getColor(prj_ind), lw=3)
 
-    labels = [label[1:] + ' cm${^2}$/V/s' for label in Prj_name]
+    labels = [label[1:] + ' cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
     legend = ax.legend(labels, loc='upper left')
     ax.set_xlabel('Lateral Direction (nm)')
     ax.set_ylabel('Trap Occupation')

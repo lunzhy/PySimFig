@@ -87,7 +87,7 @@ def plotTimesInFigs(prj_path, time_list):
 
 def main():
     # hit_file = common.searchFileNameByTime(TrapDistr_directory, Trap_file_pattern, 1)
-    # plotOccSingleTime(hit_file)
+    # plotEdensSingleTime(hit_file)
     # plotTimesInOneFig(Time_list)
     plotTimesInFigs(Target_directory, Time_list)
     plt.show()

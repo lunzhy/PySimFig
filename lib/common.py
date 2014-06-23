@@ -245,6 +245,8 @@ def getTime(filename):
 
 
 def searchFilePathByTime(folder, pattern, time):
+    if isinstance(time, str):
+        time = float(time)
     time_filepath = []  # stores tuple (time, file_path)
     for file in os.listdir(folder):
         if pattern in file:

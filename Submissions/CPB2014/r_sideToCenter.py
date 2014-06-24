@@ -27,6 +27,7 @@ def plotLsDiffEffect():
         ax.set_xscale('log')
     return
 
+
 def plotVfbSideCenter():
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
@@ -81,11 +82,47 @@ def plotLsLg2D():
     return
 
 
+def plotLateralCut():
+    fig = plt.figure()
+    ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    plot_time = ['1e2', '1e4', '1e6', '1e7', '5e7']
+    cut_pos = 9
+    prj_path = os.path.join(Main_path, 'Ls30_Lg20')
+    for index, time in enumerate(plot_time):
+        if isinstance(time, str):
+            time = float(time)
+        file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
+        x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
+        ax.plot(x, dens, color=comm.getColor(index), lw=4)
+    return
+
+
+def plotFinalLateralCut():
+    fig = plt.figure()
+    ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    plot_time, cut_pos = 3e8, 9
+    # prj_name = ['Ls30_Lg10', 'Ls30_Lg20', 'Ls30_Lg30']
+    prj_name = ['Ls30_Lg20', 'Ls30_Lg30']
+    ls_length = 30
+    for index, prj in enumerate(prj_name):
+        lg_length = float(prj[-2:])
+        off_set = (30 - lg_length) * 1.5
+        prj_path = os.path.join(Main_path, prj)
+        file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', plot_time)
+        x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
+        x = [x_bit + off_set for x_bit in x]
+        ax.plot(x, dens, color=comm.getColor(index), lw=4)
+    return
+
+
+
 def main():
     # plotLsDiffEffect()
     # plotLsLg3D()
     # plotLsLg2D()
-    plotVfbSideCenter()
+    # plotVfbSideCenter()
+    # plotLateralCut()
+    plotFinalLateralCut()
     plt.show()
     return
 

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import lib.common as comm
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
-
+import lib.format as fmt
 
 Main_prj = 'ret_400K_sideToCenter'
 Main_path = os.path.join(Directory_CPB2014, Main_prj)
@@ -112,6 +112,14 @@ def plotFinalLateralCut():
         x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
         x = [x_bit + off_set for x_bit in x]
         ax.plot(x, dens, color=comm.getColor(index), lw=4)
+
+    legend_labels = ['Channel = 20nm', 'Channel = 30nm']
+    legend = ax.legend(legend_labels, loc='upper center')
+    fmt.setAxesLabel(ax)
+    fmt.setAxesTicks(ax)
+    fmt.setLegend(legend)
+
+    drawFig(fig, 'lateral_cut')
     return
 
 

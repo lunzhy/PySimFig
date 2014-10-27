@@ -48,6 +48,7 @@ def plot2DOcc():
     cb.set_label('Trapped Electron Density ($\mathbf{cm^{-3}}$)', rotation=90, labelpad=10)
     cb.set_ticks([1e16, 1e17, 1e18, 1e19, 1e20])
 
+    drawFig(fig, 'highK_2Dtrap')
     return
 
 
@@ -66,16 +67,22 @@ def plot2DDensity():
     fmt.setColorbar(cb, 24)
     cb.set_label('Free Electron Density ($\mathbf{cm^{-3}}$)', rotation=90, labelpad=10)
     cb.set_ticks([1e1, 1e2, 1e3, 1e4, 1e5, 1e6])
+
+    drawFig(fig, 'highK_2Ddensity')
     return
 
 
 def plotVerticalCut():
-    cut_pos = 95
+    lg_length = 20
+    ls_length = 30
+    ls_length_edge = 20
+    cut_pos = ls_length_edge + lg_length + ls_length + lg_length / 2
+    ####################### cut position need be optimized ###############
     # plot_time = ['1e2', '1e3', '1e5', '1e6', '1e7', '5e7', '1e8', '3e8']
-    plot_time = ['1e3', '1e4', '1e5', '1e7', '1e8']
+    plot_time = ['1e2', '1e3', '1e4', '1e5']
     # plot_time = ['1e3']
     # prj_path = os.path.join(Main_path, 'frequency', '1e12')
-    prj_path = os.path.join(Main_path, 'Lg', '10')
+    prj_path = os.path.join(Main_path, 'Lg', str(lg_length))
     fig = plt.figure()
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
     for index, time in enumerate(plot_time):
@@ -89,6 +96,7 @@ def plotVerticalCut():
     legend_labels = fmt.setLegendLabelExp(legend_labels, 's')
     legend = ax.legend(legend_labels)
 
+    ax.set_ylim(1.5e19, 3.8e19)
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
     fmt.setLegend(legend)
@@ -151,6 +159,8 @@ def plotLgEffect():
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
     fmt.setLegend(legend)
+
+    drawFig(fig, 'highK_lg')
     return
 
 
@@ -173,13 +183,14 @@ def plotFrequencyEffect():
     labels = []
     for label in prj_list:
         superscript = label[2:]
-        labels.append(r'$\mathbf{1\times10^{%s}Hz}$' % superscript)
+        labels.append(r'$\mathbf{f_{PF} = 1\times10^{%s}Hz}$' % superscript)
     legend = ax.legend(labels, loc='lower left')
 
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
     fmt.setLegend(legend)
 
+    drawFig(fig, 'highK_frequency_new')
     return
 
 
@@ -237,6 +248,7 @@ def plotCutsInThreePositions():
     legend = ax.legend(legend_text, loc='upper left', handlelength=3)
     fmt.setLegend(legend)
 
+    drawFig(fig, 'highK_3cuts')
     return
 
 
@@ -371,7 +383,7 @@ def plotCutlines():
 
 
 def plotLateralByLg():
-    plot_time = ['1e2', '1e4', '1e6', '1e8']
+    plot_time = ['1e2', '1e5', '1e6', '1e8']
     cut_pos = 6
     main_prj_path = os.path.join(Main_path, 'Lg')
     lg_list = [20, 30, 40]
@@ -423,11 +435,63 @@ def plotLateralByLg():
     legend = ax_lg_a.legend(legend_text, loc='upper right',
                             ncol=1, borderaxespad=0.)
     fmt.setLegend(legend, font_size=18)
+
+    drawFig(fig, 'highK_lg_cut_new')
+    return
+
+
+def plotVerticalByLg():
+    ls_length = 30
+    ls_length_edge = 20
+    plot_time = ['1e2', '1e3', '1e4', '1e5']
+    main_prj_path = os.path.join(Main_path, 'Lg')
+    lg_list = [20, 30, 40]
+    prj_path_a = os.path.join(main_prj_path, str(lg_list[0]))
+    prj_path_b = os.path.join(main_prj_path, str(lg_list[1]))
+    prj_path_c = os.path.join(main_prj_path, str(lg_list[2]))
+    prj_path_list = [prj_path_a, prj_path_b, prj_path_c]
+    fig = plt.figure()
+    ax_lg_a = fig.add_subplot(3, 1, 1)
+    ax_lg_b = fig.add_subplot(3, 1, 2)
+    ax_lg_c = fig.add_subplot(3, 1, 3)
+    ax_lg_list = [ax_lg_a, ax_lg_b, ax_lg_c]
+    fig.subplots_adjust(hspace=0., wspace=0.05, right=0.86)
+    ax_lg_a.set_xticklabels([])
+    ax_lg_b.set_xticklabels([])
+
+    for prj_path, ax_lg, lg_length in zip(prj_path_list, ax_lg_list, lg_list):
+        cut_pos = ls_length_edge + lg_length + ls_length + lg_length / 2
+        for index, time in enumerate(plot_time):
+            if isinstance(time, str):
+                time = float(time)
+            file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
+            x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='x')
+            ax_lg.plot(y, occ, color=comm.getColor(index), lw=4)
+
+
+    for ax_lg in ax_lg_list[:-1]:
+        ax_lg.set_xticks([])
+
+    for ax_lg in ax_lg_list:
+        ax_lg.set_ylim(0.3, 0.7)
+        # ax_lg.set_yticks([1e19, 2e19, 3e19])
+        ax_lg.set_yticks([0.4, 0.5, 0.6])
+        fmt.setAxesLabel(ax_lg)
+        fmt.setAxesTicks(ax_lg)
+
+    ax_lg_b.set_ylabel('Trap Occupation')
+    ax_lg_c.set_xlabel('Vertical Direction (nm)')
+
+    legend_text = fmt.setLegendLabelExp(plot_time, 's')
+    legend = ax_lg_a.legend(legend_text, loc='upper center',
+                            ncol=2, borderaxespad=0.)
+    fmt.setLegend(legend, font_size=18)
+    drawFig(fig, 'highK_vertical_lg')
     return
 
 
 def main():
-    ##plot2DOcc()
+    #plot2DOcc()
     #plotLgEffect()
     # plotCompareTunnelOut()
     # plotCompareChargeRegion()
@@ -436,8 +500,9 @@ def main():
     # plotVerticalCut()
     # plotCutlines()
     # plotLateralCut()
+    # plotVerticalByLg()
     plotLateralByLg()
-    ##plotCutsInThreePositions()
+    #plotCutsInThreePositions()
     #plot2DDensity()
     plt.show()
     return

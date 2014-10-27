@@ -37,6 +37,8 @@ def plotVthCompare():
 
     ax.set_xticks([1e-8, 1e-6, 1e-4, 1e-2, 1])
     formatPlots(ax, legend)
+
+    drawFig(fig, 'program_mobility')
     return
 
 
@@ -56,6 +58,8 @@ def plotTrapCutVertical():
     ax.set_xlabel('Vertical Direction (nm)')
     ax.set_ylabel('Trap Occupation')
     formatPlots(ax, legend)
+
+    drawFig(fig, 'program_vertical')
     return
 
 
@@ -70,19 +74,22 @@ def plotTrapCutLateral():
             x, y, dens, occ = comm.cutAlongXY(file, 4, align='y')
             ax.plot(x, occ, color=comm.getColor(prj_ind), lw=3)
 
-    labels = [label[1:] + ' cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
+    labels = [label[1:] + 'cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
     legend = ax.legend(labels, loc='upper left')
-    ax.set_xlabel('Lateral Direction (nm)')
+    ax.set_xlabel('Bitline Direction (nm)')
     ax.set_ylabel('Trap Occupation')
     ax.set_xlim(0, 180)
-    ax.set_xticks([0, 15, 45, 75, 105, 135, 165, 180])
+    # ax.set_xticks([0, 15, 45, 75, 105, 135, 165, 180])
+    ax.set_xticks([0, 20, 50, 80, 110, 140, 170, 190])
     formatPlots(ax, legend)
+
+    drawFig(fig, 'program_lat_new')
     return
 
 
 def main():
-    plotVthCompare()
-    plotTrapCutVertical()
+    # plotVthCompare()
+    # plotTrapCutVertical()
     plotTrapCutLateral()
     plt.show()
 

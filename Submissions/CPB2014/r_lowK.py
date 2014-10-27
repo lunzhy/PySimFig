@@ -38,11 +38,11 @@ def plotVth(prj_name, prj_list):
 
     labels = []
     if prj_name == 'SiN':
-        labels = [r'$\mathbf{ %s m_0}$' % label for label in prj_list]
+        labels = [r'$\mathbf{ m_{SiN} = %s m_0}$' % label for label in prj_list]
     elif prj_name == 'frequency':
         for label in prj_list:
             superscript = label[2:]
-            labels.append(r'$\mathbf{1\times10^{%s}Hz}$' % superscript)
+            labels.append(r'$\mathbf{TB\,frequency = 1\times10^{%s}Hz}$' % superscript)
     legend = ax.legend(labels, loc='lower left')
 
     ax.set_xscale('log')
@@ -52,7 +52,7 @@ def plotVth(prj_name, prj_list):
     ax.set_ylabel('Threshold Voltage Shift (V)')
     formatPlots(ax, legend)
 
-    drawFig(fig, 'lowK_%s' % prj_name)
+    drawFig(fig, 'lowK_%s_new' % prj_name)
 
     return ax
 
@@ -84,9 +84,9 @@ def plotVthParameters():
 
 
 def main():
-    # ax = plotVth('SiN', Emass_list)
-    # ax2 = plotVth('frequency', Frequency_list)
-    plot2D('frequency', '1e8', 3e8)
+    ax = plotVth('SiN', Emass_list)
+    ax2 = plotVth('frequency', Frequency_list)
+    # plot2D('frequency', '1e8', 3e8)
     plt.show()
 
 

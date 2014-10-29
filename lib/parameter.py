@@ -11,7 +11,7 @@ def getParamValue(param_name, prj_path):
     default_param_path = cm.Default_Parfile_Path
     user_param_path = os.path.join(prj_path, cm.User_Param_File)
     # first search the default parameters
-    for file in [user_param_path, user_param_path]:
+    for file in [default_param_path, user_param_path]:
         if not os.path.exists(file):
             print('This file does not exist. %s' % file)
             continue

@@ -194,7 +194,7 @@ def getStepNumber(filename):
     @param filename:
     @return:
     """
-    match = re.search(r's.+\.', filename)
+    match = re.search(r's\d+\.', filename)
     suffix = match.group()
     return int(suffix[1:-1])
 
@@ -258,7 +258,7 @@ def searchFilePathByTime(folder, pattern, time):
     return time_filepath[min_index][1]
 
 
-def readVfb(directory, isFile=False):
+def read_vfb(directory, isFile=False):
     """
     read the flat band voltage shift file in given Directory
     @param directory: the Directory of the project

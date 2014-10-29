@@ -7,7 +7,7 @@ import lib.common as cm
 def plotVfbComp(ax, main_prj_path, prj_list):
     for index, prj_name in enumerate(prj_list):
         prj_path = os.path.join(main_prj_path, str(prj_name))
-        time_list, vfb_list = cm.readVfb(prj_path)
+        time_list, vfb_list = cm.read_vfb(prj_path)
         ax.plot(time_list, vfb_list, lw=2, c=cm.getColor(index))
     return
 
@@ -149,7 +149,7 @@ def plotW_woCompare(fig, dirc):
         title = prjdir + ' ' + dirc
         prjdir = os.path.join(maindir, prjdir)
         # plot Vfb
-        times, vfbs = cm.readVfb(prjdir)
+        times, vfbs = cm.read_vfb(prjdir)
         axVfb.plot(times, vfbs, marker='o', mec=cm.getColor(index),
                    c=cm.getColor(index), label=title)
         # plot trap occupation rate

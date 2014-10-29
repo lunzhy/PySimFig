@@ -12,7 +12,8 @@ Target_project = Debug_path
 Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/p_side/Lg30_pSide'
 Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/read_disturb/Ls20_pSide_zero'
 Target_project = '/home/lunzhy/SimCTM/projects/CPB2014/ret_lowK/SiN/0.4'
-Time_list = [1, 10, 1e2, 1e3, 1e4]
+Target_project = 'E:\PhD Study\SimCTM\SctmTest\HoleTunnelTest'
+Time_list = [1e-6, 1e-2, 1.25, 1.58]
 
 def plotCut():
     fig = plt.figure()
@@ -21,7 +22,7 @@ def plotCut():
         band_dir = os.path.join(Target_project, 'Band')
         file = cm.searchFilePathByTime(band_dir, 'band', time)
         # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10.5, col_index=3, along='x')
-        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=95, align='x')
+        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=0, align='x')
         ax.plot(y, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
         ax.plot(y, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')

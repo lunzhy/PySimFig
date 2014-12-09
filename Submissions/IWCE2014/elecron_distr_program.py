@@ -39,7 +39,7 @@ for prj_index, prj_name in enumerate(reversed(Prj_list)):
         time = float(time_str[:-1])
         trap_path = os.path.join(prj_path, common.TrapDistr_Folder)
         file = common.searchFilePathByTime(trap_path, Trap_file_pattern, time)
-        yCoords, eTrapped = common.getDataAlongY_1D(file, 4)  # the fourth column in the file
+        yCoords, eTrapped = common.cutAlignX_1D(file, 4)  # the fourth column in the file
         leg_label = 'Vprg = %s@t = %0.es' % (prj_name, time)
         ax.plot(yCoords, eTrapped, lw=4, ls=common.getLinestyle(ls_index), color=common.getColor(color_ind),
                 label=leg_label)

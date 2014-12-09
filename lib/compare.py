@@ -16,7 +16,7 @@ def plotOccupyComp(ax, main_prj_path, prj_list, time):
     for index, prj_name in enumerate(prj_list):
         trap_folder_path = os.path.join(main_prj_path, prj_name, 'Trap')
         file_path = cm.searchFilePathByTime(trap_folder_path, 'Occupation', time)
-        y_list, occ_list = cm.getDataAlongY_1D(file_path, 3)
+        y_list, occ_list = cm.cutAlignX_1D(file_path, 3)
         ax.plot(y_list, occ_list, lw=2, c=cm.getColor(index))
     return
 
@@ -25,7 +25,7 @@ def plotEdensityComp(ax, main_prj_path, prj_list, time):
     for index, prj_name in enumerate(prj_list):
         density_folder_path = os.path.join(main_prj_path, prj_name, 'Density')
         file_path = cm.searchFilePathByTime(density_folder_path, 'eDensity', time)
-        y_list, dens_list = cm.getDataAlongY_1D(file_path, 2)
+        y_list, dens_list = cm.cutAlignX_1D(file_path, 2)
         ax.plot(y_list, dens_list, lw=2, c=cm.getColor(index))
     return
 

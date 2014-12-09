@@ -311,19 +311,19 @@ def readChargeRegionwise(prjPath):
 
 
 ########## specificly used in plotting 1D figures ##########
-def getDataAlongY_1D(filename):
+def cutAlignX_1D(filename):
     """
     get data along y direction for the first slice
     @param filename: the file path containing the data
     @param col_index: the column index of the required data in the file
     @return: y coordinates list, required data list
     """
-    values = cutAlongXY(filename, 0, 'y')
+    values = cutAlignXY(filename, 0, 'x')
     return values[1:]
 
 
 ########## specificly used in plotting 2D figures ##########
-def cutAlongXY(filename, coord_in_nm, align='x'):
+def cutAlignXY(filename, coord_in_nm, align='x'):
     coords_list = getCoordsInXY(filename, align)
     coord_in_cm = coord_in_nm * 1e-7
     coord_diff = [math.fabs(coord_in_cm - float(coord)) for coord in coords_list]
@@ -337,7 +337,7 @@ def cutAlongXY(filename, coord_in_nm, align='x'):
     return values
 
 
-def cutAlongY(filename, x_in_nm, col_index):
+def cutAlignX(filename, x_in_nm, col_index):
     xCoords = getCoordsInXY(filename, 'x')
     x_in_cm = x_in_nm * 1e-7
     coord_diff = [math.fabs(x_in_cm - float(coord)) for coord in xCoords]
@@ -411,6 +411,22 @@ def makeValueGridzWithGateStackMask(x, y, values, prj_path):
     mask_y = np.array(grid_y > main_thick)
     grid_z_masked = np.ma.array(grid_z, mask=mask_y)
     return grid_x, grid_y, grid_z_masked
+
+
+def write_data(file, *data_to_write):
+    data_length = len(data_to_write[0])
+    data_cols = len(data_to_write)
+    lines_to_write = []
+    for row in range(data_length):
+        line = ''
+        for data_col in data_to_write:
+            line = '%s\t%s' % (line, data_col[row])
+        line = line.lstrip()
+        lines_to_write.append('%s\n' % line)
+
+    with open(file, 'w') as f:
+        f.writelines(lines_to_write)
+    return
 
 
 if __name__ == '__main__':

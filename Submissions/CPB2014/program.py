@@ -50,7 +50,7 @@ def plotTrapCutVertical():
         for time_ind, time in enumerate(Cut_time):
             trap_path = os.path.join(prj_path, 'Trap')
             file = comm.searchFilePathByTime(trap_path, comm.TrapFile_Pattern, time)
-            x, y, dens, occ = comm.cutAlongXY(file, 95, align='x')
+            x, y, dens, occ = comm.cutAlignXY(file, 95, align='x')
             ax.plot(y, occ, color=comm.getColor(prj_ind), lw=3)
 
     labels = [label[1:] + ' cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
@@ -71,7 +71,7 @@ def plotTrapCutLateral():
         for time_ind, time in enumerate(Cut_time):
             trap_path = os.path.join(prj_path, 'Trap')
             file = comm.searchFilePathByTime(trap_path, comm.TrapFile_Pattern, time)
-            x, y, dens, occ = comm.cutAlongXY(file, 4, align='y')
+            x, y, dens, occ = comm.cutAlignXY(file, 4, align='y')
             ax.plot(x, occ, color=comm.getColor(prj_ind), lw=3)
 
     labels = [label[1:] + 'cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]

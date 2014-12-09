@@ -12,8 +12,8 @@ def main():
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
     time = 1.5e-9
     file = cm.searchFilePathByTime(Band_directory, 'band', time)
-    yCoords, cb_edge = cm.getDataAlongY_1D(file, 2)  # the fourth column in the file
-    dummy, vb_edge = cm.getDataAlongY_1D(file, 3)
+    yCoords, cb_edge = cm.cutAlignX_1D(file, 2)  # the fourth column in the file
+    dummy, vb_edge = cm.cutAlignX_1D(file, 3)
     ax.plot(yCoords, cb_edge, yCoords, vb_edge)
     plt.show()
     return

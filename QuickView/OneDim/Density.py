@@ -19,9 +19,9 @@ def plotCut():
     for index, time in enumerate(Time_list):
         band_dir = os.path.join(Debug_path, 'Density')
         file = cm.searchFilePathByTime(band_dir, 'eDens', time)
-        x, y, edens = cm.cutAlongXY(file, coord_in_nm=30, align='x')
+        x, y, edens = cm.cutAlignXY(file, coord_in_nm=30, align='x')
         ax.plot(y, edens, c=cm.getColor(index), lw=3, label='%2.0es' % time)
-        # x, y, edens = cm.cutAlongXY(file, coord_in_nm=50, align='x')
+        # x, y, edens = cm.cutAlignXY(file, coord_in_nm=50, align='x')
         # ax.plot(x, edens, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')
     ax.set_ylabel('Electron density')

@@ -40,7 +40,7 @@ def trappedDensity(ax, prj_path, cut_point, align='x'):
     for index, time in enumerate(Time_list_few):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, cut_point, align)
+        x, y, dens, occ = comm.cutAlignXY(trap_file, cut_point, align)
         if align == 'x':
             new_line, = ax.plot(y, dens, lw=3, c=comm.getColor(index))
         else:
@@ -55,7 +55,7 @@ def freeDensity(ax, prj_path, cut_point):
     for index, time in enumerate(Time_list_few):
         density_directory = os.path.join(prj_path, 'Density')
         density_file = comm.searchFilePathByTime(density_directory, 'eDens', time)
-        x, y, dens = comm.cutAlongXY(density_file, cut_point, align='x')
+        x, y, dens = comm.cutAlignXY(density_file, cut_point, align='x')
         new_linel, = ax.plot(y, dens, lw=3, c=comm.getColor(index))
         lines += [new_linel]
     return lines
@@ -119,21 +119,21 @@ def plot3DTrappedDensity():
     for index, time in enumerate(Time_list):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, 4, align='y')
+        x, y, dens, occ = comm.cutAlignXY(trap_file, 4, align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     # in the middle
     for index, time in enumerate(Time_list):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, 10, align='y')
+        x, y, dens, occ = comm.cutAlignXY(trap_file, 10, align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     # near block oxide
     for index, time in enumerate(Time_list):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, 14, align='y')
+        x, y, dens, occ = comm.cutAlignXY(trap_file, 14, align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
 
@@ -276,7 +276,7 @@ def plotBandCuts():
     for index, cut_coord in enumerate(Cutline):
         band_dir = os.path.join(prj_path, 'Band')
         file_path = comm.searchFilePathByTime(band_dir, 'band', Time_to_plot)
-        x, y, cb, vb = comm.cutAlongXY(file_path, coord_in_nm=cut_coord, align='x')
+        x, y, cb, vb = comm.cutAlignXY(file_path, coord_in_nm=cut_coord, align='x')
         y_extent = min(max(y), y_extent)
         pl, = ax.plot(y, cb, c=comm.getColor(index), lw=3)
         plot_to_label.append(pl)
@@ -309,14 +309,14 @@ def plotTwoCutlines():
     for index, cut_pos in enumerate(Cutline):
         trap_dir = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_dir, 'trap', Time_to_plot)
-        x, y, trapped, occ = comm.cutAlongXY(trap_file, cut_pos, 'x')
+        x, y, trapped, occ = comm.cutAlignXY(trap_file, cut_pos, 'x')
         min_x = min(min(y), min_x)
         max_x = min(max(y), max_x)
         ax_trapped.plot(y, trapped, lw=3, c='b')
 
         edens_dir = os.path.join(prj_path, 'Density')
         edens_file = comm.searchFilePathByTime(edens_dir, 'eDens', Time_to_plot)
-        x, y, edens = comm.cutAlongXY(edens_file, cut_pos, 'x')
+        x, y, edens = comm.cutAlignXY(edens_file, cut_pos, 'x')
         ax_free.plot(y, edens, lw=3, c='k')
 
     ax_trapped.set_xlim(min_x, max_x)
@@ -339,7 +339,7 @@ def plotCutlines():
     for index, cut_coord in enumerate(Cutline):
         band_dir = os.path.join(prj_path, 'Band')
         file_path = comm.searchFilePathByTime(band_dir, 'band', Time_to_plot)
-        x, y, cb, vb = comm.cutAlongXY(file_path, coord_in_nm=cut_coord, align='x')
+        x, y, cb, vb = comm.cutAlignXY(file_path, coord_in_nm=cut_coord, align='x')
         y_extent = min(max(y), y_extent)
         pl, = ax_band.plot(y, cb, c=comm.getColor(index), lw=3)
         plot_to_label.append(pl)
@@ -364,14 +364,14 @@ def plotCutlines():
     for index, cut_pos in enumerate(Cutline):
         trap_dir = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_dir, 'trap', Time_to_plot)
-        x, y, trapped, occ = comm.cutAlongXY(trap_file, cut_pos, 'x')
+        x, y, trapped, occ = comm.cutAlignXY(trap_file, cut_pos, 'x')
         min_x = min(min(y), min_x)
         max_x = min(max(y), max_x)
         ax_trapped.plot(y, trapped, lw=2, c=comm.getColor(index))
 
         edens_dir = os.path.join(prj_path, 'Density')
         edens_file = comm.searchFilePathByTime(edens_dir, 'eDens', Time_to_plot)
-        x, y, edens = comm.cutAlongXY(edens_file, cut_pos, 'x')
+        x, y, edens = comm.cutAlignXY(edens_file, cut_pos, 'x')
         ax_free.plot(y, edens, lw=2, c=comm.getColor(index))
 
     # ax_trapped

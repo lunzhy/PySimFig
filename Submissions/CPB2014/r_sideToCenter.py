@@ -92,7 +92,7 @@ def plotLateralCut():
         if isinstance(time, str):
             time = float(time)
         file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
+        x, y, dens, occ = comm.cutAlignXY(file_path, cut_pos, align='y')
         ax.plot(x, dens, color=comm.getColor(index), lw=4)
     return
 
@@ -109,7 +109,7 @@ def plotFinalLateralCut():
         off_set = (30 - lg_length) * 1.5
         prj_path = os.path.join(Main_path, prj)
         file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', plot_time)
-        x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
+        x, y, dens, occ = comm.cutAlignXY(file_path, cut_pos, align='y')
         x = [x_bit + off_set for x_bit in x]
         ax.plot(x, dens, color=comm.getColor(index), lw=4)
 

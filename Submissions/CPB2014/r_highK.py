@@ -89,7 +89,7 @@ def plotVerticalCut():
         if isinstance(time, str):
             time = float(time)
         file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='x')
+        x, y, dens, occ = comm.cutAlignXY(file_path, cut_pos, align='x')
         ax.plot(y, dens, color=comm.getColor(index))
 
     legend_labels = [str(time) for time in plot_time]
@@ -115,7 +115,7 @@ def plotLateralCut():
         if isinstance(time, str):
             time = float(time)
         file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
+        x, y, dens, occ = comm.cutAlignXY(file_path, cut_pos, align='y')
         ax.plot(x, dens, color=comm.getColor(index), lw=4)
 
     start = 0
@@ -208,7 +208,7 @@ def plotCutsInThreePositions():
         time = float(time)
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, cut_tunnel, align='y')
+        x, y, dens, occ = comm.cutAlignXY(trap_file, cut_tunnel, align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     # in the middle
@@ -216,7 +216,7 @@ def plotCutsInThreePositions():
         time = float(time)
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, cut_middle, align='y')
+        x, y, dens, occ = comm.cutAlignXY(trap_file, cut_middle, align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     # near block oxide
@@ -224,7 +224,7 @@ def plotCutsInThreePositions():
         time = float(time)
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, occ = comm.cutAlongXY(trap_file, cut_block, align='y')
+        x, y, dens, occ = comm.cutAlignXY(trap_file, cut_block, align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     ax.set_xlim3d(0, 190)
@@ -318,7 +318,7 @@ def plotCutlines():
     for index, cut_coord in enumerate(cutline):
         band_dir = os.path.join(prj_path, 'Band')
         file_path = comm.searchFilePathByTime(band_dir, 'band', time_to_plot)
-        x, y, cb, vb = comm.cutAlongXY(file_path, coord_in_nm=cut_coord, align='x')
+        x, y, cb, vb = comm.cutAlignXY(file_path, coord_in_nm=cut_coord, align='x')
         y_extent = min(max(y), y_extent)
         pl, = ax_band.plot(y, cb, c=comm.getColor(index), lw=3)
         plot_to_label.append(pl)
@@ -343,14 +343,14 @@ def plotCutlines():
     for index, cut_pos in enumerate(cutline):
         trap_dir = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_dir, 'trap', time_to_plot)
-        x, y, trapped, occ = comm.cutAlongXY(trap_file, cut_pos, 'x')
+        x, y, trapped, occ = comm.cutAlignXY(trap_file, cut_pos, 'x')
         min_x = min(min(y), min_x)
         max_x = min(max(y), max_x)
         ax_trapped.plot(y, trapped, lw=2, c=comm.getColor(index))
 
         edens_dir = os.path.join(prj_path, 'Density')
         edens_file = comm.searchFilePathByTime(edens_dir, 'eDens', time_to_plot)
-        x, y, edens = comm.cutAlongXY(edens_file, cut_pos, 'x')
+        x, y, edens = comm.cutAlignXY(edens_file, cut_pos, 'x')
         ax_free.plot(y, edens, lw=2, c=comm.getColor(index))
 
     # ax_trapped
@@ -403,7 +403,7 @@ def plotLateralByLg():
     for prj_path, ax_lg in zip(prj_path_list, ax_lg_list):
         for index, time in enumerate(plot_time):
             file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
-            x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='y')
+            x, y, dens, occ = comm.cutAlignXY(file_path, cut_pos, align='y')
             ax_lg.plot(x, occ, color=comm.getColor(index), lw=4)
 
 
@@ -465,7 +465,7 @@ def plotVerticalByLg():
             if isinstance(time, str):
                 time = float(time)
             file_path = comm.searchFilePathByTime(os.path.join(prj_path, 'Trap'), 'trap', time)
-            x, y, dens, occ = comm.cutAlongXY(file_path, cut_pos, align='x')
+            x, y, dens, occ = comm.cutAlignXY(file_path, cut_pos, align='x')
             ax_lg.plot(y, occ, color=comm.getColor(index), lw=4)
 
 

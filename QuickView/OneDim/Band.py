@@ -21,8 +21,8 @@ def plotCut():
     for index, time in enumerate(Time_list):
         band_dir = os.path.join(Target_project, 'Band')
         file = cm.searchFilePathByTime(band_dir, 'band', time)
-        # xCoord, occ = cm.cutAlongXY(file, coord_in_nm=10.5, col_index=3, along='x')
-        x, y, cb, vb = cm.cutAlongXY(file, coord_in_nm=0, align='x')
+        # xCoord, occ = cm.cutAlignXY(file, coord_in_nm=10.5, col_index=3, along='x')
+        x, y, cb, vb = cm.cutAlignXY(file, coord_in_nm=0, align='x')
         ax.plot(y, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
         ax.plot(y, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')

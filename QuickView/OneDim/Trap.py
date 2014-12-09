@@ -27,10 +27,10 @@ def plotCut(ax=None, prj=Debug_path, time_list=Time_list, coord=0, align='y'):
         time = float(time)
         file = cm.searchFilePathByTime(band_dir, 'trap', time)
         if align == 'y':
-            x, y, etrapped, occ = cm.cutAlongXY(file, coord_in_nm=coord, align='y')
+            x, y, etrapped, occ = cm.cutAlignXY(file, coord_in_nm=coord, align='y')
             ax.plot(x, etrapped, c=cm.getColor(index), lw=3, label='%2.0es' % time)
         elif align == 'x':
-            x, y, etrapped, occ = cm.cutAlongXY(file, coord_in_nm=coord, align='x')
+            x, y, etrapped, occ = cm.cutAlignXY(file, coord_in_nm=coord, align='x')
             ax.plot(y, etrapped, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     if align == 'y':
         ax.set_xlabel('X coordinate (nm)')

@@ -3,7 +3,7 @@ import os, sys
 path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-from Submissions.CPB2014 import *
+from Submissions.TED2014 import *
 import matplotlib.pyplot as plt
 import lib.common as comm
 from QuickView.TwoDim import TrapOccupy as occ
@@ -13,7 +13,7 @@ from matplotlib.ticker import FuncFormatter
 import matplotlib.gridspec as gridspec
 import numpy as np
 
-Main_path = os.path.join(Directory_CPB2014, 'ret_highK')
+Main_path = os.path.join(Directory_TED2014, 'ret_highK')
 
 def to_simple(x, position):
     s = x / 1e19

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-from Submissions.CPB2014 import *
+from Submissions.TED2014 import *
 import lib.common as comm
 import lib.fitting as fitting
 import lib.format as fmt
@@ -17,7 +17,7 @@ Exp_data_15V = [(9.635427e-8, 0.530752), (9.284145e-7, 1.95216), (9.284145e-6, 3
                 (9.284145e-4, 5.05011), (0.00928415, 5.4328), (0.0928415, 5.72437), (0.894567, 5.94305)]
 
 
-Main_path = Directory_CPB2014
+Main_path = Directory_TED2014
 Main_prj = 'p_fitting'
 Prj_name = ''
 

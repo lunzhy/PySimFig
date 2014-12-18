@@ -3,7 +3,7 @@ import os, sys
 path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-from Submissions.CPB2014 import *
+from Submissions.TED2014 import *
 import matplotlib.pyplot as plt
 import lib.common as comm
 import numpy as np
@@ -11,7 +11,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import lib.format as fmt
 
 Main_prj = 'ret_400K_sideToCenter'
-Main_path = os.path.join(Directory_CPB2014, Main_prj)
+Main_path = os.path.join(Directory_TED2014, Main_prj)
 
 
 def plotLsDiffEffect():

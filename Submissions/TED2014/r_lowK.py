@@ -3,7 +3,7 @@ import os, sys
 path = os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, os.pardir))
 if not path in sys.path:
     sys.path.append(path)
-from Submissions.CPB2014 import *
+from Submissions.TED2014 import *
 import matplotlib.pyplot as plt
 import lib.common as comm
 import QuickView.TwoDim.TrapOccupy as occ
@@ -13,7 +13,7 @@ from matplotlib import font_manager
 from matplotlib import rc
 # rc('text', usetex=True)
 
-Main_path = Directory_CPB2014
+Main_path = Directory_TED2014
 Main_prj = r'ret_lowK'
 
 Emass_list = ['0.1', '0.2', '0.3']

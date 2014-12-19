@@ -13,8 +13,9 @@ Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/p_side/Lg30_pSide'
 Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/read_disturb/Ls20_pSide_zero'
 Target_project = '/home/lunzhy/SimCTM/projects/TED2014/ret_lowK/SiN/0.4'
 Target_project = 'E:\PhD Study\SimCTM\SctmTest\HoleTunnelTest'
+Target_project = r'E:\PhD Study\Submissions\TED2014\Revision\SctmData\fitting\14V'
 Time_list = [1e-8, 1e-2, 1.25, 1.58]
-Time_list = [1e-8]
+Time_list = [1e-8, 1e-4]
 
 def plotCut():
     fig = plt.figure()

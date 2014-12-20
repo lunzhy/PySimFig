@@ -24,8 +24,9 @@ Target_directory = '/home/lunzhy/SimCTM/projects/TED2014/ret_highK_side/all'
 Target_directory = '/home/lunzhy/SimCTM/projects/TED2014/ret_360K_sideToCenter/Ls10_Lg10'
 # Target_directory = '/home/lunzhy/SimCTM/projects/TED2014/ret_compare/highK'
 # Target_directory = '/home/lunzhy/SimCTM/projects/SolverTest/pardiso'
+Target_directory ='/home/lunzhy/SimCTM/projects/R_TED2014/program/p14V_u0.001'
 TrapDistr_directory = os.path.join(Target_directory, comm.TrapDistr_Folder)
-Trap_file_pattern = 'trapOccupation'
+Trap_file_pattern = 'eTrapped'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [1e-2, 1e-1]
@@ -37,7 +38,7 @@ Trap_file_pattern = 'trapOccupation'
 # Time_list = [200e-6]
 Time_list = [1e-8, 1e-5, 1e-4, 1e6]
 Time_list = [0.1, 1e2, 1e4, 1e6, 1e7, 3e8]
-# Time_list = [1e-8, 4e-4, 1]
+Time_list = [1e-8, 1e-3, 1]
 
 
 def plotOccSingleTime(ax, prj_path, time):

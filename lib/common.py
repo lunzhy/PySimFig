@@ -30,6 +30,7 @@ TunnelOut_File = os.path.join(Misc_Folder, 'tunnelOutDensity.txt')
 ChargeRegion_File = os.path.join(Misc_Folder, 'chargeRegionwise.txt')
 TrapDistr_Folder = 'Trap'
 TrapFile_Pattern = 'trap'
+Filepat_ElecTrapped = 'eTrap'
 Potential_Folder = 'Potential'
 Density_Folder = 'Density'
 User_Param_File = r'user.param'

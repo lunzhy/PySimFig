@@ -153,7 +153,13 @@ def getPlottedValueList(file, coord, mode='x'):
         elif mode=='y':
             index = 1
         if line_data[index] == coord:
-            line_data = [float(value) for value in line_data]
+            for iv, value in enumerate(tuple(line_data)):
+                try:
+                    value = float(value)
+                except:
+                    pass
+                line_data[iv] = value
+            #  line_data = [float(value) for value in line_data]
             line_data[0] = line_data[0] * Convert_cm_to_nm
             line_data[1] = line_data[1] * Convert_cm_to_nm
             data_tupleList.append(tuple(line_data))
@@ -309,6 +315,15 @@ def readChargeRegionwise(prjPath):
     data = np.loadtxt(file, skiprows=1)
     time, total, main_per, other_per = data[:, 0], data[:, 1], data[:, 2], data[:, 3]
     return time, total, main_per, other_per
+
+
+def read_data(file):
+    data = np.loadtxt(file, skiprows=1)
+    rows, cols = data.shape
+    data_to_ret = ()
+    for row in range(cols):
+        data_to_ret += (data[:, row],)
+    return data_to_ret
 
 
 ########## specificly used in plotting 1D figures ##########

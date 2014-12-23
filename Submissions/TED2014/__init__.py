@@ -10,6 +10,7 @@ elif platform.system() == 'Windows':
 
 IsSaveFigure = True
 
+
 def drawFig(fig, name):
     if IsSaveFigure:
         fig_path = os.path.join(Directory_TED2014, Folder_Save_Figure, name)

@@ -50,7 +50,7 @@ def plot2DOcc(prj_name, time):
 
 
 def main():
-    # plot2DOcc(comm.Debug_Folder_Path)
+    # plot2DTrappedDens(comm.Debug_Folder_Path)
     plot2DOcc('300K_1.7eV_1e8Hz', 5000)
     plot2DOcc('300K_1.7eV_1e8Hz', 1000000)
 

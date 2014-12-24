@@ -14,6 +14,7 @@ Target_project = '/home/lunzhy/SimCTM/projects/SSDM2014/read_disturb/Ls20_pSide_
 Target_project = '/home/lunzhy/SimCTM/projects/TED2014/ret_lowK/SiN/0.4'
 Target_project = 'E:\PhD Study\SimCTM\SctmTest\HoleTunnelTest'
 Target_project = r'E:\PhD Study\Submissions\TED2014\Revision\SctmData\fitting\14V'
+Target_project = r'E:\PhD Study\Submissions\TED2014\Revision\SctmData\r_highT\1e11'
 Time_list = [1e-8, 1e-2, 1.25, 1.58]
 Time_list = [1e-8, 1e-4]
 
@@ -24,7 +25,7 @@ def plotCut():
         band_dir = os.path.join(Target_project, 'Band')
         file = cm.searchFilePathByTime(band_dir, 'band', time)
         # xCoord, occ = cm.cutAlignXY(file, coord_in_nm=10.5, col_index=3, along='x')
-        x, y, cb, vb = cm.cutAlignXY(file, coord_in_nm=0, align='x')
+        x, y, cb, vb = cm.cutAlignXY(file, coord_in_nm=95, align='x')
         ax.plot(y, cb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
         ax.plot(y, vb, c=cm.getColor(index), lw=3, label='%2.0es' % time)
     ax.set_xlabel('Y coordinate (nm)')

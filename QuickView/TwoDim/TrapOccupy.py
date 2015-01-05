@@ -27,6 +27,7 @@ Target_directory = '/home/lunzhy/SimCTM/projects/TED2014/ret_360K_sideToCenter/L
 Target_directory ='/home/lunzhy/SimCTM/projects/R_TED2014/program/p14V_u0.001'
 Target_directory ='/home/lunzhy/SimCTM/projects/R_TED2014/r_lowT/m_sin/0.4'
 Target_directory = '/home/lunzhy/SimCTM/projects/R_TED2014/ret-demo'
+Target_directory = r'/home/lunzhy/SimCTM/projects/R_TED2014/r_side_to_center/400K/Ls20_Lg20'
 TrapDistr_directory = os.path.join(Target_directory, comm.TrapDistr_Folder)
 Trap_file_pattern = 'eTrapped'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]

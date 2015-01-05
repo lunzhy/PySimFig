@@ -71,7 +71,7 @@ def plot2D(fig, ax, par_name, par_value, time=1e8):
     cb = fig.colorbar(im, ax=ax, pad=0.05, aspect=15, extend='both')
 
     ax.set_xlabel('Bitline Direction (nm)')
-    ax.set_ylabel('Vertical Direction (nm)')
+    ax.set_ylabel('Radial Direction (nm)')
     ax.set_yticks([4, 5, 6, 7, 8, 9])
     ax.set_xticks([0, 80, 110, 190])
 

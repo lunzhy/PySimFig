@@ -36,7 +36,7 @@ def plotCutsInThreePositions():
     cut_block = 12
     cut_middle = 9
     time_to_plot = ['1e2', '1e3', '1e4', '1e5', '1e6', '1e7', '1e8']
-    time_to_plot = ['1e2', '1e4', '1e5', '1e6', '1e7', '1e8']
+    time_to_plot = ['1e2', '1e4', '1e5', '1e6', '1e7', '5e7']
     # prj_name = os.path.join('frequency', '1e11')
     prj_path = os.path.join(Main_path, '1e11')
     fig = plt.figure()
@@ -83,8 +83,11 @@ def plotCutsInThreePositions():
     ax.dist = 10
     # legend_text = ['%.es' % leg for leg in time_to_plot]
     legend_text = fmt.setLegendLabelExp(time_to_plot, 's')
+    # legend_text = [''] * 6
     legend = ax.legend(legend_text, loc='upper left', handlelength=3)
     fmt.setLegend(legend)
+
+    # save_figure(fig, 'highT_cuts')
     return
 
 
@@ -97,7 +100,7 @@ def plot2DTrappedDens():
     cb = fig.colorbar(im, ax=ax, pad=0.05, aspect=15, extend='both')
 
     ax.set_xlabel('Bitline Direction (nm)')
-    ax.set_ylabel('Vertical Direction (nm)')
+    ax.set_ylabel('Radial Direction (nm)')
     ax.set_yticks([6, 7, 8, 9, 10, 11, 12])
     ax.set_xticks([0, 80, 110, 190])
 
@@ -105,6 +108,8 @@ def plot2DTrappedDens():
     fmt.setColorbar(cb, 24)
     cb.set_label('Trapped Electron Density ($\mathbf{cm^{-3}}$)', rotation=90, labelpad=10)
     cb.set_ticks([1e16, 1e17, 1e18, 1e19, 1e20])
+
+    save_figure(fig, 'highK_etrapped')
     return
 
 
@@ -116,13 +121,15 @@ def plot2DDensity():
     im = edens.plotEdensSingleTime(ax, prj_path, plot_time, vmin=1e1, vmax=1e5)
     cb = fig.colorbar(im, ax=ax, pad=0.05, aspect=15, extend='both')
     ax.set_xlabel('Bitline Direction (nm)')
-    ax.set_ylabel('Vertical Direction (nm)')
+    ax.set_ylabel('Radial Direction (nm)')
     ax.set_yticks([6, 7, 8, 9, 10, 11, 12])
     ax.set_xticks([0, 80, 110, 190])
     fmt.set2DAxe(ax)
     fmt.setColorbar(cb, 24)
     cb.set_label('Free Electron Density ($\mathbf{cm^{-3}}$)', rotation=90, labelpad=10)
     cb.set_ticks([1e1, 1e2, 1e3, 1e4, 1e5, 1e6])
+
+    save_figure(fig, 'highK_density')
     return
 
 
@@ -159,9 +166,9 @@ def plotFrequencyEffect():
 
 
 def main():
-    plotCutsInThreePositions()
-    plot2DDensity()
-    plot2DTrappedDens()
+    # plotCutsInThreePositions()
+    # plot2DDensity()
+    # plot2DTrappedDens()
     plotFrequencyEffect()
     plt.show()
     return

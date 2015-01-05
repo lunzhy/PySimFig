@@ -14,17 +14,22 @@ from matplotlib.ticker import FuncFormatter
 import matplotlib.gridspec as gridspec
 import numpy as np
 
-Main_path = os.path.join(Directory_RTED2014, 'Lg', 'PF1e12')
+Main_path = os.path.join(Directory_RTED2014, 'Lg', 'PF1e11')
 
 
 def plot_vth_lg():
-    prj_list = ['10', '20', '30', '40', '50']
+    prj_list = ['20', '30', '40', '50']
     fig = plt.figure()
     ax = fig.add_axes([0.15, 0.15, 0.8, 0.8])
+    vfb_list = ()
     for index, prj in enumerate(prj_list):
         prj_path = os.path.join(Main_path, prj)
         time, vfb1, vfb2, vfb3 = comm.readVfbOfCells(prj_path)
+        vfb_list += (vfb2, )
         ax.plot(time, vfb2, color=comm.getColor(index), lw=4)
+
+    vfb1, vfb2, vfb3, vfb4 = vfb_list
+    comm.write_data(Folder_Write_Data, time, vfb1, vfb2, vfb3, vfb4)
     ax.set_xscale('log')
     ax.set_xlim(1e2, 1e8)
     ax.set_ylim(3.5, 5.5)
@@ -42,7 +47,7 @@ def plot_vth_lg():
 
 def plot_lateral_by_lg():
     plot_time = ['1e2', '1e5', '1e6', '1e8']
-    cut_pos = 9
+    cut_pos = 12
     main_prj_path = Main_path
     lg_list = [20, 30, 40, 50]
     prj_path_a = os.path.join(main_prj_path, str(lg_list[0]))
@@ -57,6 +62,7 @@ def plot_lateral_by_lg():
     fig.subplots_adjust(hspace=0., wspace=0.05, right=0.86)
     ax_lg_a.set_xticklabels([])
     ax_lg_b.set_xticklabels([])
+    ax_lg_c.set_xticklabels([])
 
     for prj_path, ax_lg in zip(prj_path_list, ax_lg_list):
         for index, time in enumerate(plot_time):
@@ -70,12 +76,12 @@ def plot_lateral_by_lg():
         end = (diff + 220) / 2
         start = - (220 - end)
         ax_lg.set_xlim(start, end)
-        ax_lg.set_ylim(0, 0.8)
+        ax_lg.set_ylim(0, 0.85)
         # ax_lg.set_yticks([1e19, 2e19, 3e19])
         ax_lg.set_yticks([0.2, 0.4, 0.6])
 
 
-    for ax_lg in ax_lg_list[:-1]:
+    for ax_lg in ax_lg_list[:]:
         ax_lg.set_xticks([])
 
     # ax_lg_c.set_xticks([0, 55, 110, 165, 220])
@@ -94,13 +100,14 @@ def plot_lateral_by_lg():
                             ncol=1, borderaxespad=0.)
     fmt.setLegend(legend, font_size=18)
 
+    save_figure(fig, 'Lg_lateral')
     return
 
 
 def plot_vertical_by_lg():
     ls_length = 30
     ls_length_edge = 20
-    plot_time = ['1e2', '1e3', '1e4', '1e5', '1e6', '1e7']
+    plot_time = ['1e2', '1e3', '1e4', '1e5']
     main_prj_path = Main_path
     lg_list = [20, 30, 40, 50]
     prj_path_a = os.path.join(main_prj_path, str(lg_list[0]))
@@ -130,19 +137,20 @@ def plot_vertical_by_lg():
         ax_lg.set_xticks([])
 
     for ax_lg in ax_lg_list:
-        ax_lg.set_ylim(0.3, 0.7)
+        ax_lg.set_ylim(0.3, 0.75)
         # ax_lg.set_yticks([1e19, 2e19, 3e19])
         ax_lg.set_yticks([0.4, 0.5, 0.6])
         fmt.setAxesLabel(ax_lg)
         fmt.setAxesTicks(ax_lg)
 
     ax_lg_b.set_ylabel('Trap Occupation')
-    ax_lg_c.set_xlabel('Vertical Direction (nm)')
+    ax_lg_c.set_xlabel('Radial Direction (nm)')
 
     legend_text = fmt.setLegendLabelExp(plot_time, 's')
     legend = ax_lg_a.legend(legend_text, loc='upper center',
                             ncol=2, borderaxespad=0.)
     fmt.setLegend(legend, font_size=18)
+    save_figure(fig, 'Lg_radial')
     return
 
 
@@ -216,9 +224,9 @@ def plotLateralCut():
 
 
 def main():
-    plot_vth_lg()
+    # plot_vth_lg()
     plot_lateral_by_lg()
-    plot_vertical_by_lg()
+    # plot_vertical_by_lg()
     plt.show()
     return
 

@@ -10,7 +10,7 @@ import lib.common as comm
 import lib.format as fmt
 
 
-Main_path = os.path.join(Directory_RTED2014, 'temperature')
+Main_path = os.path.join(Directory_RTED2014, 'r_temperature')
 
 
 def plot_lateral_diffusion():

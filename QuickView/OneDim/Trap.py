@@ -14,10 +14,11 @@ Debug_path = '/home/lunzhy/SimCTM/projects/SSDM2014/read_disturb/Ls20_pSide_cent
 Debug_path = '/home/lunzhy/SimCTM/projects/TED2014/ret_400K_sideToCenter/Ls10_Lg10'
 Debug_path = r'E:\PhD Study\Submissions\TED2014\Revision\SctmData\fitting\14V'
 Debug_path = r'/home/lunzhy/SimCTM/projects/R_TED2014/ret-demo'
+Debug_path = r'E:\PhD Study\Submissions\TED2014\Revision\SctmData\r_fitting\p14V'
 # Debug_path = r'/home/lunzhy/SimCTM/projects/R_TED2014/Lg/PF1e11/30'
 Time_list = [1e-6, 0.0002, 0.00020001, 0.0003, 0.0004]
 Time_list = [1, 10, 1e2, 1e3, 1e4, 1e5, 1e6]
-Time_list = [1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 3e8]
+Time_list = [1e-2, 0.03, 1e-1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 3e8]
 # Time_list = [1e-8, 1e-6, 1e-4, 1e-2, 1e-1, 1]
 
 
@@ -47,5 +48,5 @@ def plotCut(ax=None, prj=Debug_path, time_list=Time_list, coord=0, align='y'):
 
 
 if __name__ == '__main__':
-    plotCut(align='x', coord=95)
+    plotCut(align='x', coord=0)
     plt.show()

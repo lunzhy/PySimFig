@@ -63,6 +63,28 @@ def plotTrapCutVertical():
     return
 
 
+def plotDensityCutVertical():
+    fig = plt.figure()
+    ax = fig.add_axes([0.15, 0.15, 0.8, 0.8])
+    for prj_ind, prj in enumerate(Prj_name):
+        prj_path = os.path.join(Main_path, Main_prj, prj)
+        for time_ind, time in enumerate(Cut_time):
+            trap_path = os.path.join(prj_path, 'Density')
+            file = comm.searchFilePathByTime(trap_path, comm.Density_Folder, time)
+            x, y, dens = comm.cutAlignXY(file, 95, align='x')
+            ax.plot(y, dens, color=comm.getColor(prj_ind), lw=3)
+
+    labels = [label[1:] + ' cm$^{2}$(Vs)$^{-1}$' for label in Prj_name]
+    legend = ax.legend(labels, loc='lower left')
+    ax.set_xlabel('Vertical Direction (nm)')
+    ax.set_ylabel('Free Electron Density ' + '(cm$^{-3})$')
+    ax.set_yscale('log')
+    formatPlots(ax, legend)
+
+    drawFig(fig, 'program_vertical_density')
+    return
+
+
 def plotTrapCutLateral():
     fig = plt.figure()
     ax = fig.add_axes([0.15, 0.15, 0.8, 0.8])
@@ -90,7 +112,8 @@ def plotTrapCutLateral():
 def main():
     # plotVthCompare()
     # plotTrapCutVertical()
-    plotTrapCutLateral()
+    # plotTrapCutLateral()
+    plotDensityCutVertical()
     plt.show()
 
 

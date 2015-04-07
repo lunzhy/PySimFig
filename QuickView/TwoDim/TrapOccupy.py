@@ -28,6 +28,7 @@ Target_directory ='/home/lunzhy/SimCTM/projects/R_TED2014/program/p14V_u0.001'
 Target_directory ='/home/lunzhy/SimCTM/projects/R_TED2014/r_lowT/m_sin/0.4'
 Target_directory = '/home/lunzhy/SimCTM/projects/R_TED2014/ret-demo'
 Target_directory = r'/home/lunzhy/SimCTM/projects/R_TED2014/r_side_to_center/400K/Ls20_Lg20'
+
 TrapDistr_directory = os.path.join(Target_directory, comm.TrapDistr_Folder)
 Trap_file_pattern = 'eTrapped'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
@@ -88,6 +89,7 @@ def plotTimesInFigs(prj_path, time_list):
         #fig_name = os.path.join(r'C:\Users\Lunzhy\Desktop\pic', str(time))
         #fig.savefig(fig_name, dpi=600, bbox_inches='tight', pad_inches=0.1)
     return
+
 
 def main():
     # hit_file = common.searchFileNameByTime(TrapDistr_directory, Trap_file_pattern, 1)

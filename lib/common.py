@@ -383,22 +383,22 @@ def makeValueGridZ(x, y, values):
 
 
 def makeValueGridzWithMask(x, y, values, prj_path):
-    from .parameter import getParamValue
+    from .parameter import get_param_value
     xi, yi = np.linspace(min(x), max(x), 200), np.linspace(min(y), max(y), 200)
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
 
-    structure = getParamValue('structure', prj_path)
-    tunnel_thick = float(getParamValue('tc.tunnel.thick', prj_path))
-    trap_thick = float(getParamValue('tc.trap.thick', prj_path))
-    block_thick = float(getParamValue('tc.block.thick', prj_path))
-    iso1_width = float(getParamValue('tc.iso1.width', prj_path)) if structure == 'TripleFull' else 0
-    gate1_width = float(getParamValue('tc.gate1.width', prj_path))
-    iso2_width = float(getParamValue('tc.iso2.width', prj_path))
-    gate2_width = float(getParamValue('tc.gate2.width', prj_path))
-    iso3_width = float(getParamValue('tc.iso3.width', prj_path))
-    gate3_width = float(getParamValue('tc.gate3.width', prj_path))
-    iso4_width = float(getParamValue('tc.iso4.width', prj_path)) if structure == 'TripleFull' else 0
+    # structure = getParamValue('structure', prj_path)
+    tunnel_thick = float(get_param_value('tc.tunnel.thick', prj_path))
+    trap_thick = float(get_param_value('tc.trap.thick', prj_path))
+    block_thick = float(get_param_value('tc.block.thick', prj_path))
+    iso1_width = float(get_param_value('tc.iso1.width', prj_path))
+    gate1_width = float(get_param_value('tc.gate1.width', prj_path))
+    iso2_width = float(get_param_value('tc.iso2.width', prj_path))
+    gate2_width = float(get_param_value('tc.gate2.width', prj_path))
+    iso3_width = float(get_param_value('tc.iso3.width', prj_path))
+    gate3_width = float(get_param_value('tc.gate3.width', prj_path))
+    iso4_width = float(get_param_value('tc.iso4.width', prj_path))
     main_thick = tunnel_thick + trap_thick + block_thick
 
     mask_y = np.array(grid_y > main_thick)
@@ -414,14 +414,14 @@ def makeValueGridzWithMask(x, y, values, prj_path):
 
 
 def makeValueGridzWithGateStackMask(x, y, values, prj_path):
-    from .parameter import getParamValue
+    from .parameter import get_param_value
     xi, yi = np.linspace(min(x), max(x), 200), np.linspace(min(y), max(y), 200)
     grid_x, grid_y = np.meshgrid(xi, yi)
     grid_z = scipy.interpolate.griddata((x, y), values, (grid_x, grid_y), method='linear')
 
-    tunnel_thick = float(getParamValue('tc.tunnel.thick', prj_path))
-    trap_thick = float(getParamValue('tc.trap.thick', prj_path))
-    block_thick = float(getParamValue('tc.block.thick', prj_path))
+    tunnel_thick = float(get_param_value('tc.tunnel.thick', prj_path))
+    trap_thick = float(get_param_value('tc.trap.thick', prj_path))
+    block_thick = float(get_param_value('tc.block.thick', prj_path))
     main_thick = tunnel_thick + trap_thick + block_thick
 
     mask_y = np.array(grid_y > main_thick)

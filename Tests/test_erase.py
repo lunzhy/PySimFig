@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import lib.common as cm
 
 Project_Path = 'E:\PhD Study\SimCTM\SctmTest\HoleTunnelTest'
+Project_Path = r'E:\PhD Study\Submissions\Journal2015\SctmData\Fitting\E_14V'
 
 
 def plot_voltage_shift(ax):
@@ -59,14 +60,11 @@ def plot_current_density(ax):
 def plot_trap_dist(ax, plot_time):
     trap_folder = os.path.join(Project_Path, 'Trap')
 
-    etrap_file = cm.searchFilePathByTime(trap_folder, 'eTrapped', 0)
-    x, y, trapped, eocc_init = cm.cutAlignXY(etrap_file, 0, 'x')
+    trap_file = cm.searchFilePathByTime(trap_folder, 'trapped', 0)
+    x, y, etrap_init, eocc_init, htrap_init, hocc_init = cm.cutAlignXY(trap_file, 0, 'x')
 
-    etrap_file = cm.searchFilePathByTime(trap_folder, 'eTrapped', plot_time)
-    x, y, trapped, eocc_time = cm.cutAlignXY(etrap_file, 0, 'x')
-
-    htrap_file = cm.searchFilePathByTime(trap_folder, 'hTrapped', plot_time)
-    x, y, trapped, hocc_time = cm.cutAlignXY(htrap_file, 0, 'x')
+    trap_file = cm.searchFilePathByTime(trap_folder, 'trapped', plot_time)
+    x, y, etrapped, eocc_time, htrapped, hocc_time = cm.cutAlignXY(trap_file, 0, 'x')
 
     for index, data in enumerate([eocc_init, eocc_time, hocc_time]):
         ax.plot(y, data, marker=cm.getMarker(index))
@@ -79,11 +77,8 @@ def plot_trap_dist(ax, plot_time):
 def plot_trap_net(ax, plot_time):
     trap_folder = os.path.join(Project_Path, 'Trap')
 
-    etrap_file = cm.searchFilePathByTime(trap_folder, 'eTrapped', plot_time)
-    x, y, trapped, eocc = cm.cutAlignXY(etrap_file, 0, 'x')
-
-    htrap_file = cm.searchFilePathByTime(trap_folder, 'hTrapped', plot_time)
-    x, y_coord_list, trapped, hocc = cm.cutAlignXY(htrap_file, 0, 'x')
+    trap_file = cm.searchFilePathByTime(trap_folder, 'trapped', plot_time)
+    x, y_coord_list, etrapped, eocc, htrapped, hocc = cm.cutAlignXY(trap_file, 0, 'x')
 
     net_occ = [eo-ho for eo, ho in zip(eocc, hocc)]
     y_list, net_occ_list, sign_list = [], [], []
@@ -161,11 +156,11 @@ def main():
 
     fig_trap = plt.figure()
     ax_trap = fig_trap.add_axes([0.1, 0.1, 0.85, 0.85])
-    plot_trap_dist(ax_trap, 1000)
+    plot_trap_dist(ax_trap, plot_time=0.0001)
 
     fig_trap_net = plt.figure()
     ax_net = fig_trap_net.add_axes([0.1, 0.1, 0.85, 0.85])
-    plot_trap_net(ax_net, 1000)
+    plot_trap_net(ax_net, plot_time=0.0001)
 
     fig_edens = plt.figure()
     timelist_to_plot = [1e-4, 1e-2, 1]

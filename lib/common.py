@@ -47,7 +47,7 @@ Convert_cm_to_nm = 1e7
 
 ############ global parameters not in used ##################
 Dir_Cmp = r'E:\PhD Study\SimCTM\SctmTest\ParameterCheck'
-Dir_W_WO = r'E:\PhD Study\SimCTM\SctmTest\W_WO';
+Dir_W_WO = r'E:\PhD Study\SimCTM\SctmTest\W_WO'
 Dir_SaveFig = r'E:\PhD Study\SimCTM\SctmTest\figures'
 
 

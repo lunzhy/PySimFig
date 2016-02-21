@@ -30,7 +30,7 @@ Target_directory = '/home/lunzhy/SimCTM/projects/R_TED2014/ret-demo'
 Target_directory = r'/home/lunzhy/SimCTM/projects/R_TED2014/r_side_to_center/400K/Ls20_Lg20'
 
 TrapDistr_directory = os.path.join(Target_directory, comm.TrapDistr_Folder)
-Trap_file_pattern = 'eTrapped'
+Trap_file_pattern = 'trapped'
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [2e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
 # Time_list = [1e-2, 1e-1]
@@ -58,7 +58,7 @@ def plotOccSingleTime(ax, prj_path, time):
 def plotDensitySingleTime(ax, prj_path, time):
     trapDistr_directory = os.path.join(prj_path, comm.TrapDistr_Folder)
     file_path = comm.searchFilePathByTime(trapDistr_directory, Trap_file_pattern, time)
-    x, y, etrap, trapOcc = comm.readData2D(file_path, 1)
+    x, y, etrap, htrap, eOcc, hOcc = comm.readData2D(file_path, 1)
     grid_z = comm.makeValueGridZ(x, y, etrap)
     im = ax.imshow(grid_z, cmap=plt.cm.jet, vmin=1e16, vmax=1e20, origin='lower',
                    extent=[min(x), max(x), min(y), max(y)], aspect='auto', norm=LogNorm())

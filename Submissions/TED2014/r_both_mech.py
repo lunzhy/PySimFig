@@ -49,16 +49,17 @@ def plotLateralDiffusion():
         prj_path = os.path.join(Main_path, prj)
         time, total, main_per, other_per = comm.readChargeRegionwise(prj_path)
         other_per = [per - other_per[0] for per in other_per]
-        ax.plot(time, other_per, color=comm.getColor(index), lw=4)
+        ax.plot(time, other_per, color=comm.getColor(index), marker=comm.getMarker(index), lw=3,
+                markersize=14, markeredgecolor=comm.getColor(index), markevery=2)
 
     ax.set_xscale('log')
     ax.set_ylim(-0.02, 0.27)
     ax.set_yticks([0, 0.05, 0.1, 0.15, 0.20, 0.25])
     ax.set_xlim(1e2, 1e7)
-    ax.set_xlabel(r'Retention Time (s)')
-    ax.set_ylabel(r'Ratio of Lateral Spreading')
-    legend_label = [r'Temperature = %s' % tem for tem in prj_list]
-    legend = ax.legend(legend_label, loc='upper left')
+    ax.set_xlabel(r'Retention time (s)')
+    ax.set_ylabel(r'Ratio of lateral spreading')
+    legend_label = [r'Temperature = %s K' % tem[:-1] for tem in prj_list]
+    legend = ax.legend(legend_label, loc='upper left', numpoints=1)
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
     fmt.setLegend(legend)
@@ -82,16 +83,17 @@ def plotTunnelOut():
         total_trap = total[0]
 
         tun_acc = [tun / total_trap for tun in tun_acc]
-        ax.plot(time, tun_acc, color=comm.getColor(index), lw=4)
+        ax.plot(time, tun_acc, color=comm.getColor(index), marker=comm.getMarker(index), lw=3,
+                markersize=14, markeredgecolor=comm.getColor(index), markevery=2)
 
     ax.set_xscale('log')
     ax.set_ylim(-0.01, 0.09)
     ax.set_yticks([0, 0.02, 0.04, 0.06, 0.08])
     ax.set_xlim(1e2, 1e7)
-    ax.set_xlabel(r'Retention Time (s)')
-    ax.set_ylabel(r'Ratio of Tunneling Out')
-    legend_label = [r'Temperature = %s' % tem for tem in prj_list]
-    legend = ax.legend(legend_label, loc='upper left')
+    ax.set_xlabel(r'Retention time (s)')
+    ax.set_ylabel(r'Ratio of tunneling out')
+    legend_label = [r'Temperature = %s K' % tem[:-1] for tem in prj_list]
+    legend = ax.legend(legend_label, loc='upper left', numpoints=1)
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
     fmt.setLegend(legend)

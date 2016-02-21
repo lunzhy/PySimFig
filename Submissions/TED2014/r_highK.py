@@ -171,20 +171,21 @@ def plotFrequencyEffect():
     for index, prj in enumerate(prj_list):
         prj_path = os.path.join(Main_path, 'frequency', prj)
         time, vfb1, vfb2, vfb3 = comm.readVfbOfCells(prj_path)
-        ax.plot(time, vfb2, color=comm.getColor(index), lw=4)
+        ax.plot(time, vfb2, color=comm.getColor(index), marker=comm.getMarker(index), lw=3,
+                markersize=14, markeredgecolor=comm.getColor(index), markevery=2)
 
     ax.set_xscale('log')
     ax.set_xlim(1e3, 3e8)
     ax.set_ylim(4.0, 5.6)
     ax.set_yticks([4.0, 4.4, 4.8, 5.2, 5.6])
-    ax.set_xlabel(r'Retention Time (s)')
-    ax.set_ylabel('Threshold Voltage Shift (V)')
+    ax.set_xlabel(r'Retention time (s)')
+    ax.set_ylabel('Threshold voltage shift (V)')
 
     labels = []
     for label in prj_list:
         superscript = label[2:]
         labels.append(r'$\mathbf{f_{PF} = 1\times10^{%s}Hz}$' % superscript)
-    legend = ax.legend(labels, loc='lower left')
+    legend = ax.legend(labels, loc='lower left', numpoints=1)
 
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)
@@ -493,7 +494,7 @@ def plotVerticalByLg():
 def main():
     #plot2DOcc()
     #plotLgEffect()
-    # plotCompareTunnelOut()
+    plotCompareTunnelOut()
     # plotCompareChargeRegion()
     # plotTunnelOutVsRegion()
     # plotFrequencyEffect()
@@ -501,9 +502,9 @@ def main():
     # plotCutlines()
     # plotLateralCut()
     # plotVerticalByLg()
-    plotLateralByLg()
-    #plotCutsInThreePositions()
-    #plot2DDensity()
+    # plotLateralByLg()
+    # plotCutsInThreePositions()
+    # plot2DDensity()
     plt.show()
     return
 

@@ -26,7 +26,7 @@ Misc_Folder = 'Miscellaneous'
 Flatband_File_Relpath = os.path.join('Miscellaneous', 'VfbShift.txt')
 Threshold_File_Relpath = os.path.join('Miscellaneous', 'Vth.txt')
 AvgFlatband_File = os.path.join('Miscellaneous', 'Vth_flatband.txt')
-TunnelOut_File = os.path.join(Misc_Folder, 'eTunnelOutDensity.txt')
+TunnelOut_File = os.path.join(Misc_Folder, 'tunnelOutDensity.txt')
 ChargeRegion_File = os.path.join(Misc_Folder, 'chargeRegionwise.txt')
 TrapDistr_Folder = 'Trap'
 TrapFile_Pattern = 'trap'
@@ -317,8 +317,8 @@ def readChargeRegionwise(prjPath):
     return time, total, main_per, other_per
 
 
-def read_data(file):
-    data = np.loadtxt(file, skiprows=1)
+def read_data(file, usecols=None):
+    data = np.loadtxt(file, skiprows=1, usecols=usecols)
     rows, cols = data.shape
     data_to_ret = ()
     for row in range(cols):

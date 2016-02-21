@@ -21,16 +21,17 @@ def plotLateralByThick():
         prj_path = os.path.join(Main_path, prj)
         time, total, main_per, other_per = comm.readChargeRegionwise(prj_path)
         other_per = [per - other_per[0] for per in other_per]
-        ax.plot(time, other_per, color=comm.getColor(index), lw=4)
+        ax.plot(time, other_per, color=comm.getColor(index), marker=comm.getMarker(index), lw=3,
+                markersize=14, markeredgecolor=comm.getColor(index), markevery=2)
 
     ax.set_xscale('log')
     ax.set_ylim(-0.02, 0.42)
     ax.set_yticks([0, 0.10, 0.20, 0.30, 0.40])
     ax.set_xlim(1e2, 1e7)
-    ax.set_xlabel(r'Retention Time (s)')
-    ax.set_ylabel(r'Ratio of Lateral Spreading')
-    legend_label = [r'Thickness = %s' % tem for tem in prj_list]
-    legend = ax.legend(legend_label, loc='upper left')
+    ax.set_xlabel(r'Retention time (s)')
+    ax.set_ylabel(r'Ratio of lateral spreading')
+    legend_label = [r'Thickness = %s nm' % tem[:-2] for tem in prj_list]
+    legend = ax.legend(legend_label, loc='upper left', numpoints=1)
 
     fmt.setAxesLabel(ax)
     fmt.setAxesTicks(ax)

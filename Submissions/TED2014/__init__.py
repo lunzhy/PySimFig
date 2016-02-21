@@ -14,5 +14,7 @@ IsSaveFigure = True
 def drawFig(fig, name):
     if IsSaveFigure:
         fig_path = os.path.join(Directory_TED2014, Folder_Save_Figure, name)
+        fig_path = os.path.join(
+            r'C:\Users\Lunzhy\Nutstore\OutLab\SCIS2015\Revision\Final\py_figures', name)
         fig.savefig(fig_path+'.png', dpi=800, bbox_inches='tight', pad_inches=0.1)
     return

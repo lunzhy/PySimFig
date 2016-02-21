@@ -8,9 +8,9 @@ def setAxesLabel(ax, label_size=26, tick_size=24):
         ax.spines[axis].set_linewidth(2)
 
     ### axis label
-    ticks_font = font_manager.FontProperties(family='Arial', style='normal',
+    ticks_font = font_manager.FontProperties(family='Times New Roman', style='normal',
                                              size=tick_size, weight='normal', stretch='normal')
-    labels_font = font_manager.FontProperties(family='Arial', style='normal',
+    labels_font = font_manager.FontProperties(family='Times New Roman', style='normal',
                                               size=label_size, weight='normal', stretch='normal')
     labels = [ax.xaxis.label, ax.yaxis.label]
     if isinstance(ax, Axes3D):
@@ -43,7 +43,7 @@ def setAxesTicks(ax):
 
 def setLegend(legend, font_size=22):
     ### legend
-    legend_font = font_manager.FontProperties(family='Arial', style='normal',
+    legend_font = font_manager.FontProperties(family='Times New Roman', style='normal',
                                               size=font_size, weight='normal', stretch='normal')
     for legend_item in (legend.get_texts()):
         legend_item.set_fontproperties(legend_font)
@@ -52,7 +52,7 @@ def setLegend(legend, font_size=22):
 
 
 def setColorbar(cb, font_size=26):
-    cb_font = font_manager.FontProperties(family='Arial', style='normal',
+    cb_font = font_manager.FontProperties(family='Times New Roman', style='normal',
                                           size=font_size, weight='normal', stretch='normal')
     for label_item in (cb.ax.get_yticklabels() + cb.ax.get_xticklabels()):
         label_item.set_fontproperties(cb_font)
@@ -75,9 +75,9 @@ def set2DAxe(ax):
     ax.yaxis.set_tick_params(which='major', width=2, size=0)
     ax.yaxis.set_tick_params(which='minor', width=2, size=0)
 
-    ticks_font = font_manager.FontProperties(family='Arial', style='normal',
+    ticks_font = font_manager.FontProperties(family='Times New Roman', style='normal',
                                              size=24, weight='normal', stretch='normal')
-    labels_font = font_manager.FontProperties(family='Arial', style='normal',
+    labels_font = font_manager.FontProperties(family='Times New Roman', style='normal',
                                               size=26, weight='normal', stretch='normal')
     for label_item in ([ax.xaxis.label, ax.yaxis.label]):
         label_item.set_fontproperties(labels_font)

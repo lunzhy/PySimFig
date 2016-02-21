@@ -34,7 +34,8 @@ def plotVth(prj_name, prj_list):
     for index, prj in enumerate(prj_list):
         prj_path = os.path.join(Main_path, Main_prj, prj_name, prj)
         time, vfb1, vfb2, vfb3 = comm.readVfbOfCells(prj_path)
-        ax.plot(time, vfb2, color=comm.getColor(index), lw=4)
+        ax.plot(time, vfb2, color=comm.getColor(index), marker=comm.getMarker(index), lw=3,
+                markersize=14, markeredgecolor=comm.getColor(index), markevery=2)
 
     labels = []
     if prj_name == 'SiN':
@@ -43,13 +44,13 @@ def plotVth(prj_name, prj_list):
         for label in prj_list:
             superscript = label[2:]
             labels.append(r'$\mathbf{TB\,frequency = 1\times10^{%s}Hz}$' % superscript)
-    legend = ax.legend(labels, loc='lower left')
+    legend = ax.legend(labels, loc='lower left', numpoints=1)
 
     ax.set_xscale('log')
     ax.set_xlim(1e2, 1e7)
     ax.set_ylim(4.0, 5.2)
-    ax.set_xlabel(r'Retention Time (s)')
-    ax.set_ylabel('Threshold Voltage Shift (V)')
+    ax.set_xlabel(r'Retention time (s)')
+    ax.set_ylabel('Threshold voltage shift (V)')
     formatPlots(ax, legend)
 
     drawFig(fig, 'lowK_%s_new' % prj_name)

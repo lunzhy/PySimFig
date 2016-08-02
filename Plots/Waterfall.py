@@ -22,33 +22,33 @@ def to_simple(x, position):
     return int(s)
 
 
-def plot3DTrappedDensity(prj_path, time_list):
+def plot3DTrappedDensity(prj_path, time_list, positions):
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
     # near tunnel oxide
     for index, time in enumerate(time_list):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, dens_hole, occ, occ_hole = comm.cutAlignXY(trap_file, 4, align='y')
+        x, y, dens, dens_hole, occ, occ_hole = comm.cutAlignXY(trap_file, positions[0], align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     # in the middle
     for index, time in enumerate(time_list):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, dens_hole, occ, occ_hole = comm.cutAlignXY(trap_file, 10, align='y')
+        x, y, dens, dens_hole, occ, occ_hole = comm.cutAlignXY(trap_file, positions[1], align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
     # near block oxide
     for index, time in enumerate(time_list):
         trap_directory = os.path.join(prj_path, 'Trap')
         trap_file = comm.searchFilePathByTime(trap_directory, 'trap', time)
-        x, y, dens, dens_hole, occ, occ_hole = comm.cutAlignXY(trap_file, 14, align='y')
+        x, y, dens, dens_hole, occ, occ_hole = comm.cutAlignXY(trap_file, positions[2], align='y')
         ax.plot(x, y, dens, lw=2.5, c=comm.getColor(index))
 
 
-    ax.set_xlim3d(0, 100)
-    ax.set_ylim3d(4, 15)
+    # ax.set_xlim3d(0, 100)
+    # ax.set_ylim3d(4, 15)
     # ax.set_xlabel('BL direction (nm)', labelpad=50, linespacing=3.2)
     # ax.set_ylabel('Vertical direction (nm)')
     # ax.set_zlabel('Trapped electron density (1e19${cm^{-3}}$)')
@@ -65,8 +65,10 @@ def plot3DTrappedDensity(prj_path, time_list):
     legend = ax.legend(legend_text, loc='upper left', handlelength=3)
     fmt.setLegend(legend)
 
+    plt.show()
+
     # drawFig(fig, '3D')
-    return
+    return fig
 
 
 def main():
